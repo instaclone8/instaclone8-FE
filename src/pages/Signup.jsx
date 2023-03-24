@@ -6,24 +6,69 @@ import Kakao from '../components/Kakao'
 import Line from '../components/Line'
 import LoginBox from '../components/LoginBox'
 import Wrapper from '../components/Wrapper'
-import { useInput } from '../Hook/useInput'
+import useInput, { useEmailCheck, usePwdCheck } from '../Hook/useInput'
 
 function Signup() {
-  const [email, emailOnChange] = useInput('')
-  const [password, passwordOnChange] = useInput('')
+  const [email, emailOnChange, idIsValid] = useEmailCheck('')
+  const [password, passwordOnChange, pwdIsValid] = usePwdCheck('')
   const [passwordCheck, passwordCheckOnChange] = useInput('')
+  const [nickname, nicknameOnChange] = useInput('')
 
   return (
     <Wrapper>
       <LoginBox login={false}>
         <SignupDiv>
-          <EmailDiv>
-            <Input max={25} others={'width : 275px'} value={email} onChange={emailOnChange}>이메일</Input>
-            <Button size={'check'} btnColor={'rgb(113, 194, 244)'} color={'white'}>중복 확인</Button>
-          </EmailDiv>
+          <Div>
+            <EmailDiv>
+              <Input max={25}
+                others={'width : 275px'}
+                value={email}
+                onChange={emailOnChange}>
+                이메일
+              </Input>
+              <Button
+                size={'check'}
+                btnColor={'rgb(113, 194, 244)'}
+                color={'white'}>
+                중복 확인
+              </Button>
+            </EmailDiv>
+            {idIsValid ? <Warning color='green'>유효한 아이디 입니다.</Warning> : <Warning color='red'>이메일 형식을 확인해 주세요</Warning>}
+          </Div>
+          <Div>
+            <Input
+              type={'password'}
+              max={15}
+              width={'100%'}
+              value={password}
+              onChange={passwordOnChange}>
+              비밀번호
+            </Input>
+            {pwdIsValid ? <Warning color='green'>유효한 비밀번호 입니다.</Warning> : <Warning color='red'>알파벳, 숫자, 특수문자를 하나씩 사용하여 6~15자 사이로 입력해 주세요</Warning>}
+          </Div>
 
-          <Input type={'password'} max={15} width={'100%'} value={password} onChange={passwordOnChange}>비밀번호</Input>
-          <Input type={'password'} max={15} width={'100%'} value={passwordCheck} onChange={passwordCheckOnChange}>비밀번호 확인</Input>
+          <Div>
+            <Input
+              type={'password'}
+              max={15}
+              width={'100%'}
+              value={passwordCheck}
+              onChange={passwordCheckOnChange}>
+              비밀번호 확인
+            </Input>
+            {passwordCheck === password ? <Warning color='green'>동일한 비밀번호입니다.</Warning> : <Warning color='red'>비밀번호가 일치하지 않습니다.</Warning>}
+          </Div>
+          <Div>
+            <Input
+              max={10}
+              width={'100%'}
+              value={nickname}
+              onChange={nicknameOnChange}>
+              닉네임
+            </Input>
+            <Warning>asdf</Warning>
+          </Div>
+
         </SignupDiv>
 
 
@@ -52,6 +97,18 @@ const SignupDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 35px;
+`
+
+const Div = styled.div`
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+`
+
+const Warning = styled.span`
+  color: ${props => props.color};
+  font-size: 3px;
 `
 
 
