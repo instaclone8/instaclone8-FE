@@ -1,20 +1,45 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-function Button({ children, style, onClick }) {
+function Button({ children, size, onClick, btnColor, color }) {
+
+  const buttonSize = SIZE[size]
+
+
   return (
-    <StButton style={style} onClick={onClick}>
+    <StButton buttonSize={buttonSize} onClick={onClick} bgColor={btnColor} color={color}>
       {children}
     </StButton>
   );
 }
 
+const SIZE = {
+  small: css`
+    width: 100px;
+    height: 30px;
+  `,
+  medium: css`
+    width: 200px;
+    height: 40px;
+    font-size: 17px;
+    font-weight: bold;
+  `,
+  large: css`
+    width: 300px;
+    height: 60px;
+    font-size: 25px;
+    font-weight: bold;
+  `,
+}
+
 const StButton = styled.button`
-  background-color: white;
+  background-color: ${(props) => props.bgColor};
+  color: ${(props) => props.color};
   border: 1px solid lightgray;
-  width: 50px;
-  height: 30px;
-  margin: 2.5px;
+  border-radius: 10px;
+  ${(props) => props.buttonSize}
+  ${(props) => props.others}
+
   cursor: pointer;
 `;
 
