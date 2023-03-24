@@ -1,13 +1,13 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
-function Button({ children, size, onClick, btnColor, color }) {
+function Button({ children, size, onClick, btnColor, color, others }) {
 
   const buttonSize = SIZE[size]
 
 
   return (
-    <StButton buttonSize={buttonSize} onClick={onClick} bgColor={btnColor} color={color}>
+    <StButton buttonSize={buttonSize} onClick={onClick} bgColor={btnColor} color={color} others={others}>
       {children}
     </StButton>
   );
@@ -30,6 +30,12 @@ const SIZE = {
     font-size: 25px;
     font-weight: bold;
   `,
+  check: css`
+    width: 100px;
+    height: 40px;
+    font-size: 17px;
+    font-weight: bold;
+  `
 }
 
 const StButton = styled.button`

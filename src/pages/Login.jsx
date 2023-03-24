@@ -11,7 +11,7 @@ function Login() {
   return (
     <Wrapper>
       <LoginBox login={true}>
-        <Input max={25}>아이디</Input>
+        <Input max={25}>이메일</Input>
         <Input max={15}>비밀번호</Input>
         <Button size={'medium'} btnColor={'rgb(113, 194, 244)'} color={'white'}>로그인</Button>
         <Line>또는</Line>

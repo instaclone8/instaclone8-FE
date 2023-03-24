@@ -9,7 +9,7 @@ function LoginBox({ children, login }) {
         <Logo src='https://fontmeme.com/images/instagram-new-logo.png'></Logo>
         {children}
       </StDiv>
-      <StDiv2>{login ? <Div><span>계정이 없으신가요?</span> <Link>가입하러 가기</Link></Div> : null}</StDiv2>
+      <StDiv2>{login ? <Div><span>계정이 없으신가요?</span> <Link to={'/signup'}>가입하러 가기</Link></Div> : <Div><span>계정이 있으신가요?</span> <Link to={'/login'}>로그인하러 가기</Link></Div>}</StDiv2>
     </>
 
   )
@@ -28,7 +28,7 @@ const Logo = styled.img`
 const StDiv = styled.div`
   background-color: white;
   width: 500px;
-  height: 600px;
+  height: 650px;
   border: 2px solid #d4d4d4;
 
   display: flex;
