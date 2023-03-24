@@ -6,7 +6,7 @@ function LoginBox({ children, login }) {
   return (
     <>
       <StDiv>
-        <Logo src='https://fontmeme.com/images/instagram-new-logo.png'></Logo>
+        <Logo src='img/instagram-font.png'></Logo>
         {children}
       </StDiv>
       <StDiv2>{login ? <Div><span>계정이 없으신가요?</span> <Link to={'/signup'}>가입하러 가기</Link></Div> : <Div><span>계정이 있으신가요?</span> <Link to={'/login'}>로그인하러 가기</Link></Div>}</StDiv2>
