@@ -1,31 +1,19 @@
 {
-  "todos": [
+  "posts": [
     {
       "id": 1,
-      "content": "HTML",
-      "completed": true
-    },
-    {
-      "id": 2,
-      "content": "CSS",
-      "completed": false
-    },
-    {
-      "id": 3,
-      "content": "Javascript",
-      "completed": true
+      "image": "https://kidsmart.or.kr/web/product/big/essimile_26461.jpg",
+      "author": "인스타그램 클론코딩"
     }
   ],
-  "users": [
+  "comments": [
     {
       "id": 1,
-      "name": "Lee",
-      "role": "developer"
-    },
-    {
-      "id": 2,
-      "name": "Kim",
-      "role": "designer"
+      "body": "some comment",
+      "postId": 1
     }
-  ]
+  ],
+  "profile": {
+    "name": "typicode"
+  }
 }
