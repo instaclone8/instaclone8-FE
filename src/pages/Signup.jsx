@@ -1,22 +1,38 @@
+import { useMutation } from '@tanstack/react-query'
 import React from 'react'
+import { userSignup } from '../api/users'
+
 import Button from '../components/Button'
 import Input from '../components/Input'
 import Kakao from '../components/Kakao'
 import Line from '../components/Line'
 import LoginBox from '../components/LoginBox'
 import Wrapper from '../components/Wrapper'
-import useInput, { useEmailCheck, usePwdCheck } from '../Hook/useInput'
+import useInput, { useValidInput } from '../Hook/useInput'
 import * as UI from '../variables/styleStore'
 
 function Signup() {
-  const [email, emailOnChange, idIsValid] = useEmailCheck('')
-  const [password, passwordOnChange, pwdIsValid] = usePwdCheck('')
+  const [email, emailOnChange, idIsValid] = useValidInput({ type: 'email' })
+  const [password, passwordOnChange, pwdIsValid] = useValidInput({ type: 'pwd' })
   const [passwordCheck, passwordCheckOnChange] = useInput('')
   const [nickname, nicknameOnChange] = useInput('')
 
+  const addUser = useMutation(userSignup)
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    const newUser = {
+      userId: email,
+      password: password,
+      username: nickname,
+    }
+
+    addUser.mutate(newUser)
+  }
+
   return (
     <Wrapper>
-      <LoginBox login={false} logoMargin={'0'}>
+      <LoginBox login={false} logoMargin={'0'} onSubmit={onSubmitHandler}>
         <UI.SignupDiv>
           <UI.Div>
             <UI.EmailDiv>
@@ -57,9 +73,9 @@ function Signup() {
             >
               비밀번호 확인
             </Input>
-            {
-              passwordCheck
-                === password && password ? <UI.Warning color='green'>동일한 비밀번호입니다.</UI.Warning> : <UI.Warning color='red'>비밀번호가 일치하지 않습니다.</UI.Warning>}
+            {passwordCheck === password && password ?
+              <UI.Warning color='green'>동일한 비밀번호입니다.</UI.Warning>
+              : <UI.Warning color='red'>비밀번호가 일치하지 않습니다.</UI.Warning>}
           </UI.Div>
           <UI.Div>
             <UI.EmailDiv>

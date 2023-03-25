@@ -10,30 +10,26 @@ function useInput(initialValue) {
   return [inputValue, handleChange];
 }
 
-// 정규식 email 형식 체크
-export function useEmailCheck(initialValue) {
-  const [inputValue, setInputValue] = useState(initialValue);
+export function useValidInput({ type }) {
+  const [inputValue, setInputValue] = useState('');
   const [isValid, setIsValid] = useState(false);
+
+  let check;
+
+  switch (type) {
+    case 'email':
+      check = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      break;
+    case 'pwd':
+      check = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,15}$/;
+      break;
+    default:
+      break;
+  }
 
   const handleChange = (e) => {
     setInputValue(e.target.value);
-    const emailCheck = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const isValid = emailCheck.test(inputValue);
-    setIsValid(isValid)
-  };
-
-  return [inputValue, handleChange, isValid];
-}
-
-// 정규식 비밀번호 형식 체크
-export function usePwdCheck(initialValue) {
-  const [inputValue, setInputValue] = useState(initialValue);
-  const [isValid, setIsValid] = useState(false);
-
-  const handleChange = (e) => {
-    setInputValue(e.target.value);
-    const pwdCheck = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,15}$/;
-    const isValid = pwdCheck.test(e.target.value);
+    const isValid = check.test(e.target.value);
     setIsValid(isValid);
   };
 

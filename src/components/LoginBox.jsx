@@ -25,7 +25,7 @@ const Logo = styled.img`
   margin-bottom: ${({ marginBottom }) => (marginBottom ? marginBottom : '40px')};
 `
 
-const StDiv = styled.div`
+const StDiv = styled.form`
   background-color: white;
   width: 500px;
   height: 650px;
