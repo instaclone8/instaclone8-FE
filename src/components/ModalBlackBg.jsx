@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import React from "react";
 
-function BlackBgColor({ setOpenModal }) {
+function ModalBlackBg({ setOpenModal }) {
   return (
     <BlackBackground
       className="body-blackout-style"
@@ -11,7 +11,7 @@ function BlackBgColor({ setOpenModal }) {
   );
 }
 
-export default BlackBgColor;
+export default ModalBlackBg;
 
 const BlackBackground = styled.div`
   width: 100%;
@@ -20,6 +20,6 @@ const BlackBackground = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  z-index: 9;
+  z-index: 10;
   background-color: rgba(0, 0, 0, 0.65);
 `;

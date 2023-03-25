@@ -8,8 +8,6 @@ function MainWrapper({ children, ...rest }) {
 const StMainWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  //영역확인을 위한 배경색
-  /* background-color: #ece7cf; */
 `;
 
 export default MainWrapper;
