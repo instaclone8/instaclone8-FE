@@ -1,6 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
+import axios from 'axios'
 import React from 'react'
 import { userSignup } from '../api/users'
+import api from '../axios/api'
 
 import Button from '../components/Button'
 import Input from '../components/Input'
@@ -17,22 +19,31 @@ function Signup() {
   const [passwordCheck, passwordCheckOnChange] = useInput('')
   const [nickname, nicknameOnChange] = useInput('')
 
-  const addUser = useMutation(userSignup)
 
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
-    const newUser = {
-      userId: email,
-      password: password,
-      username: nickname,
-    }
-
-    addUser.mutate(newUser)
+  const newUser = {
+    email: email,
+    username: nickname,
+    password: password,
   }
+
+  // const { mutate: signup, status } = useMutation({
+  //   mutationFn: async (newUser) => {
+  //     const data = await api.post('api/user/signup', newUser)
+  //     console.log(data);
+  //     return data
+  //   }
+  // })
+  const { mutate: signup, status } = useMutation({
+    mutationFn: async (newUser) => {
+      const data = await axios.post("http://54.180.103.170/api/user/signup", newUser)
+      console.log(data);
+      return data
+    }
+  })
 
   return (
     <Wrapper>
-      <LoginBox login={false} logoMargin={'0'} onSubmit={onSubmitHandler}>
+      <LoginBox login={false} logoMargin={'0'}>
         <UI.SignupDiv>
           <UI.Div>
             <UI.EmailDiv>
@@ -101,7 +112,7 @@ function Signup() {
         </UI.SignupDiv>
 
 
-        <Button size={'medium'} btnColor={'rgb(113, 194, 244)'} color={'white'}>회원가입</Button>
+        <Button type={'button'} size={'medium'} btnColor={'rgb(113, 194, 244)'} color={'white'} onClick={() => signup(newUser)}>회원가입</Button>
         <Line>또는</Line>
         <Kakao> KakaoTalk 로 회원가입</Kakao>
       </LoginBox>
