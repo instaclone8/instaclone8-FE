@@ -1,0 +1,19 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "image": "https://kidsmart.or.kr/web/product/big/essimile_26461.jpg",
+      "author": "인스타그램 클론코딩"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
