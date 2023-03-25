@@ -8,7 +8,6 @@ function Kakao({ children }) {
       <RiKakaoTalkFill style={{ color: 'rgb(250, 225, 0)', fontSize: `40px` }} />
       <Atag href="">{children}</Atag>
     </Div>
-
   )
 }
 

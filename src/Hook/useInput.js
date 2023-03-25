@@ -10,6 +10,7 @@ function useInput(initialValue) {
   return [inputValue, handleChange];
 }
 
+// 정규식 email 형식 체크
 export function useEmailCheck(initialValue) {
   const [inputValue, setInputValue] = useState(initialValue);
   const [isValid, setIsValid] = useState(false);
@@ -24,6 +25,7 @@ export function useEmailCheck(initialValue) {
   return [inputValue, handleChange, isValid];
 }
 
+// 정규식 비밀번호 형식 체크
 export function usePwdCheck(initialValue) {
   const [inputValue, setInputValue] = useState(initialValue);
   const [isValid, setIsValid] = useState(false);
