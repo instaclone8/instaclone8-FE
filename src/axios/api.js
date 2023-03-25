@@ -2,22 +2,29 @@ import axios from 'axios'
 import { cookies } from '../shared/cookies'
 
 
-const instance = axios.create({
-    baseURL:process.env.REACT_APP_SERVER_URL,
-    headers:{
-      "Access-Control-Allow-Origin": "*",
-    },
-    // timeout: 1,
-    // 오류 확인 가능한지 테스트.. 1밀리세컨드.. 내에 응답을 못받으면 에러처리 하도록 돼 있음.
+const apis = axios.create({
+  baseURL: process.env.REACT_APP_SERVER_URL,
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+  },
+  // timeout: 1,
+  // 오류 확인 가능한지 테스트.. 1밀리세컨드.. 내에 응답을 못받으면 에러처리 하도록 돼 있음.
 })
 
+export const apis_token = axios.create({
+  baseURL: process.env.REACT_APP_SERVER_URL,
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+  },
+  // timeout: 1,
+  // 오류 확인 가능한지 테스트.. 1밀리세컨드.. 내에 응답을 못받으면 에러처리 하도록 돼 있음.
+})
 
-
-instance.interceptors.request.use(
+apis_token.interceptors.request.use(
   // 요청을 보내기 전 수행되는 함수
   function (config) {
     const token = cookies.get("token")
-    config.headers["authorization"] = `Bearer ${token}`;
+    config.headers["Authorization"] = `${token}`;
     return config
   },
 
@@ -28,7 +35,7 @@ instance.interceptors.request.use(
   }
 )
 
-instance.interceptors.response.use(
+apis.interceptors.response.use(
   // 응답을 내보내기 전 수행되는 함수
   function (response) {
     return response
@@ -40,4 +47,4 @@ instance.interceptors.response.use(
   }
 )
 
-export default instance
+export default apis

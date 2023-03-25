@@ -30,6 +30,7 @@ const StDiv = styled.form`
   width: 500px;
   height: 650px;
   border: 2px solid #d4d4d4;
+  border-radius: 10px;
 
   display: flex;
   flex-direction: column;
@@ -46,6 +47,7 @@ background-color: white;
   margin-top: 20px;
 
   border: 2px solid #d4d4d4;
+  border-radius: 10px;
 
   display: flex;
   justify-content: center;

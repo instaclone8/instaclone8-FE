@@ -1,9 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import React from 'react'
-import { userSignup } from '../api/users'
-import api from '../axios/api'
-
+import apis from '../axios/api'
 import Button from '../components/Button'
 import Input from '../components/Input'
 import Kakao from '../components/Kakao'
@@ -26,18 +24,35 @@ function Signup() {
     password: password,
   }
 
-  // const { mutate: signup, status } = useMutation({
-  //   mutationFn: async (newUser) => {
-  //     const data = await api.post('api/user/signup', newUser)
-  //     console.log(data);
-  //     return data
-  //   }
-  // })
-  const { mutate: signup, status } = useMutation({
+  const checkedEmail = {
+    email: email
+  }
+
+  const checkedNickname = {
+    username: nickname
+  }
+
+  const { mutate: signup } = useMutation({
     mutationFn: async (newUser) => {
-      const data = await axios.post("http://54.180.103.170/api/user/signup", newUser)
+      const data = await apis.post("/api/user/signup", newUser)
       console.log(data);
       return data
+    }
+  })
+
+  const { mutate: checkEmail } = useMutation({
+    mutationFn: async (email) => {
+      const response = await apis.post('/api/user/checkemail', email)
+      console.log(response);
+      return response
+    }
+  })
+
+  const { mutate: checkNickname } = useMutation({
+    mutationFn: async (checkedNickname) => {
+      const response = await axios.post("http://54.180.103.170/api/user/checkusername", checkedNickname)
+      console.log(response);
+      return response
     }
   })
 
@@ -56,7 +71,9 @@ function Signup() {
               <Button
                 size={'check'}
                 btnColor={'rgb(113, 194, 244)'}
-                color={'white'}>
+                color={'white'}
+                type='button'
+                onClick={() => checkEmail(checkedEmail)}>
                 중복 확인
               </Button>
             </UI.EmailDiv>
@@ -91,7 +108,7 @@ function Signup() {
           <UI.Div>
             <UI.EmailDiv>
               <Input
-                max={5}
+                max={8}
                 width={'275px'}
                 value={nickname}
                 onChange={nicknameOnChange}
@@ -99,14 +116,16 @@ function Signup() {
                 닉네임
               </Input>
               <Button
+                type='button'
                 size={'check'}
                 btnColor={'rgb(113, 194, 244)'}
-                color={'white'}>
+                color={'white'}
+                onClick={() => checkNickname(checkedNickname)}>
                 중복 확인
               </Button>
             </UI.EmailDiv>
 
-            <UI.Warning>5자 안으로 입력해주세요</UI.Warning>
+            <UI.Warning>8자 안으로 입력해주세요</UI.Warning>
           </UI.Div>
 
         </UI.SignupDiv>

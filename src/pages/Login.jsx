@@ -6,9 +6,9 @@ import LoginBox from '../components/LoginBox'
 import Wrapper from '../components/Wrapper'
 import Kakao from '../components/Kakao'
 import { useMutation } from '@tanstack/react-query'
-import instance from '../axios/api'
 import useInput from '../Hook/useInput'
-import axios from 'axios'
+import { cookies } from '../shared/cookies'
+import apis from '../axios/api'
 
 
 function Login() {
@@ -21,11 +21,13 @@ function Login() {
     password: password
   }
 
-  const { mutate: login, status } = useMutation({
+  const { mutate: login } = useMutation({
     mutationFn: async (userInfo) => {
-      const data = await axios.post("http://54.180.103.170/api/user/login", userInfo);
-      console.log(data);
-      return data
+      const response = await apis.post("/api/user/login", userInfo);
+      console.log(response.headers.authorization);
+      const token = response.headers.authorization;
+      cookies.set('token', token)
+      return response
     }
   })
 
