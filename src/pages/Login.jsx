@@ -1,14 +1,14 @@
 import React from 'react'
-import Button from '../components/Button'
-import Line from '../components/Line'
-import Input from '../components/Input'
-import LoginBox from '../components/LoginBox'
-import Wrapper from '../components/Wrapper'
-import Kakao from '../components/Kakao'
+import Line from '../components/login,signup/Line'
+import LoginBox from '../components/login,signup/LoginBox'
 import { useMutation } from '@tanstack/react-query'
 import useInput from '../Hook/useInput'
 import { cookies } from '../shared/cookies'
 import apis from '../axios/api'
+import Wrapper from '../components/common/Wrapper'
+import Button from '../components/common/Button'
+import Input from '../components/common/Input'
+import Kakao from '../components/login,signup/Kakao'
 
 
 function Login() {

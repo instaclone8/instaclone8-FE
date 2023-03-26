@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from '../components/Button';
-import Wrapper from '../components/Wrapper';
+import Button from '../components/common/Button';
+import Wrapper from '../components/common/Wrapper';
 
 function Home() {
   const navigate = useNavigate();

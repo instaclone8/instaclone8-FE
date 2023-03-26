@@ -2,14 +2,14 @@ import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import React from 'react'
 import apis from '../axios/api'
-import Button from '../components/Button'
-import Input from '../components/Input'
-import Kakao from '../components/Kakao'
-import Line from '../components/Line'
-import LoginBox from '../components/LoginBox'
-import Wrapper from '../components/Wrapper'
+import Line from '../components/login,signup/Line'
+import LoginBox from '../components/login,signup/LoginBox'
 import useInput, { useValidInput } from '../Hook/useInput'
 import * as UI from '../variables/styleStore'
+import Wrapper from '../components/common/Wrapper'
+import Button from '../components/common/Button'
+import Input from '../components/common/Input'
+import Kakao from '../components/login,signup/Kakao'
 
 function Signup() {
   const [email, emailOnChange, idIsValid] = useValidInput({ type: 'email' })
@@ -59,9 +59,9 @@ function Signup() {
   return (
     <Wrapper>
       <LoginBox login={false} logoMargin={'0'}>
-        <UI.SignupDiv>
-          <UI.Div>
-            <UI.EmailDiv>
+        <UI.FlexColumn width={`80%`} gap={'15px'}>
+          <UI.FlexColumn align={`flex-start`}>
+            <UI.FlexRow justify={'space-between'} gap={'30px'}>
               <Input max={25}
                 others={'width : 275px'}
                 value={email}
@@ -76,10 +76,10 @@ function Signup() {
                 onClick={() => checkEmail(checkedEmail)}>
                 중복 확인
               </Button>
-            </UI.EmailDiv>
+            </UI.FlexRow>
             {idIsValid ? <UI.Warning color='green'>유효한 아이디 입니다.</UI.Warning> : <UI.Warning color='red'>이메일 형식을 확인해 주세요</UI.Warning>}
-          </UI.Div>
-          <UI.Div>
+          </UI.FlexColumn>
+          <UI.FlexColumn align={`flex-start`}>
             <Input
               type={'password'}
               max={15}
@@ -89,9 +89,9 @@ function Signup() {
               비밀번호
             </Input>
             {pwdIsValid ? <UI.Warning color='green'>유효한 비밀번호 입니다.</UI.Warning> : <UI.Warning color='red'>알파벳, 숫자, 특수문자를 하나씩 사용하여 6~15자 사이로 입력해 주세요</UI.Warning>}
-          </UI.Div>
+          </UI.FlexColumn>
 
-          <UI.Div>
+          <UI.FlexColumn align={`flex-start`}>
             <Input
               type={'password'}
               max={15}
@@ -104,9 +104,9 @@ function Signup() {
             {passwordCheck === password && password ?
               <UI.Warning color='green'>동일한 비밀번호입니다.</UI.Warning>
               : <UI.Warning color='red'>비밀번호가 일치하지 않습니다.</UI.Warning>}
-          </UI.Div>
-          <UI.Div>
-            <UI.EmailDiv>
+          </UI.FlexColumn>
+          <UI.FlexColumn align={`flex-start`}>
+            <UI.FlexRow justify={'space-between'} gap={'30px'}>
               <Input
                 max={8}
                 width={'275px'}
@@ -123,12 +123,12 @@ function Signup() {
                 onClick={() => checkNickname(checkedNickname)}>
                 중복 확인
               </Button>
-            </UI.EmailDiv>
+            </UI.FlexRow>
 
             <UI.Warning>8자 안으로 입력해주세요</UI.Warning>
-          </UI.Div>
+          </UI.FlexColumn>
 
-        </UI.SignupDiv>
+        </UI.FlexColumn>
 
 
         <Button type={'button'} size={'medium'} btnColor={'rgb(113, 194, 244)'} color={'white'} onClick={() => signup(newUser)}>회원가입</Button>

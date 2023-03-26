@@ -1,21 +1,16 @@
 import React from 'react'
 import { RiKakaoTalkFill } from 'react-icons/ri'
 import styled from 'styled-components'
+import { FlexRow } from '../../variables/styleStore'
 
 function Kakao({ children }) {
   return (
-    <Div>
+    <FlexRow>
       <RiKakaoTalkFill style={{ color: 'rgb(250, 225, 0)', fontSize: `40px` }} />
       <Atag href="">{children}</Atag>
-    </Div>
+    </FlexRow>
   )
 }
-
-const Div = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
 
 const Atag = styled.a`
   text-decoration: none;

@@ -1,23 +1,20 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { FlexRow } from '../../variables/styleStore'
 
 function LoginBox({ children, login, logoMargin }) {
   return (
     <>
-      <StDiv>
+      <TopBox>
         <Logo src='img/instagram-font.png' marginBottom={logoMargin}></Logo>
         {children}
-      </StDiv>
-      <StDiv2>{login ? <Div><span>계정이 없으신가요?</span> <Link to={'/signup'}>가입하러 가기</Link></Div> : <Div><span>계정이 있으신가요?</span> <Link to={'/login'}>로그인하러 가기</Link></Div>}</StDiv2>
+      </TopBox>
+      <BottomBox>{login ? <FlexRow gap={`10px`}><span>계정이 없으신가요?</span> <Link to={'/signup'}>가입하러 가기</Link></FlexRow> : <FlexRow gap={`10px`}><span>계정이 있으신가요?</span> <Link to={'/login'}>로그인하러 가기</Link></FlexRow>}</BottomBox>
     </>
 
   )
 }
-
-const Div = styled.div`
-  display: flex;
-`
 
 const Logo = styled.img`
   width: 450px;
@@ -25,7 +22,7 @@ const Logo = styled.img`
   margin-bottom: ${({ marginBottom }) => (marginBottom ? marginBottom : '40px')};
 `
 
-const StDiv = styled.form`
+const TopBox = styled.form`
   background-color: white;
   width: 500px;
   height: 650px;
@@ -40,7 +37,7 @@ const StDiv = styled.form`
   gap: 20px;
 `
 
-const StDiv2 = styled.div`
+const BottomBox = styled.div`
 background-color: white;
   width: 500px;
   height: 100px;
