@@ -10,7 +10,6 @@ export const FlexRow = styled.div`
   align-items: ${({ align }) => align ? align : 'center'};
 
   gap: ${({ gap }) => gap ? gap : null};
-
 `
 
 export const FlexColumn = styled.div`

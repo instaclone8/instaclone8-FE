@@ -1,7 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
-import axios from 'axios'
 import React from 'react'
-import apis from '../axios/api'
 import Line from '../components/login,signup/Line'
 import LoginBox from '../components/login,signup/LoginBox'
 import useInput, { useValidInput } from '../Hook/useInput'
@@ -10,13 +7,15 @@ import Wrapper from '../components/common/Wrapper'
 import Button from '../components/common/Button'
 import Input from '../components/common/Input'
 import Kakao from '../components/login,signup/Kakao'
+import { useSignupUser } from '../api/hooks/useSignupUser'
+import useCheckEmail from '../api/hooks/useCheckEmail'
+import useCheckNickname from '../api/hooks/useCheckNickname'
 
 function Signup() {
   const [email, emailOnChange, idIsValid] = useValidInput({ type: 'email' })
   const [password, passwordOnChange, pwdIsValid] = useValidInput({ type: 'pwd' })
   const [passwordCheck, passwordCheckOnChange] = useInput('')
   const [nickname, nicknameOnChange] = useInput('')
-
 
   const newUser = {
     email: email,
@@ -32,32 +31,12 @@ function Signup() {
     username: nickname
   }
 
-  const { mutate: signup } = useMutation({
-    mutationFn: async (newUser) => {
-      const data = await apis.post("/api/user/signup", newUser)
-      console.log(data);
-      return data
-    }
-  })
-
-  const { mutate: checkEmail } = useMutation({
-    mutationFn: async (email) => {
-      const response = await apis.post('/api/user/checkemail', email)
-      console.log(response);
-      return response
-    }
-  })
-
-  const { mutate: checkNickname } = useMutation({
-    mutationFn: async (checkedNickname) => {
-      const response = await axios.post("http://54.180.103.170/api/user/checkusername", checkedNickname)
-      console.log(response);
-      return response
-    }
-  })
+  const { signup } = useSignupUser();
+  const { checkEmail } = useCheckEmail();
+  const { checkNickname } = useCheckNickname();
 
   return (
-    <Wrapper>
+    <Wrapper width={'100vw'}>
       <LoginBox login={false} logoMargin={'0'}>
         <UI.FlexColumn width={`80%`} gap={'15px'}>
           <UI.FlexColumn align={`flex-start`}>

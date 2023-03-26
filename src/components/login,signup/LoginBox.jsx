@@ -12,7 +12,6 @@ function LoginBox({ children, login, logoMargin }) {
       </TopBox>
       <BottomBox>{login ? <FlexRow gap={`10px`}><span>계정이 없으신가요?</span> <Link to={'/signup'}>가입하러 가기</Link></FlexRow> : <FlexRow gap={`10px`}><span>계정이 있으신가요?</span> <Link to={'/login'}>로그인하러 가기</Link></FlexRow>}</BottomBox>
     </>
-
   )
 }
 
