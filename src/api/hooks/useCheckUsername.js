@@ -2,10 +2,10 @@ import { useMutation } from '@tanstack/react-query';
 import apis from '../../axios/api';
 
 
-function useCheckNickname() {
+function useCheckUsername() {
   const { mutate } = useMutation({
-    mutationFn: async (checkedNickname) => {
-      const response = await apis.post("/api/user/checkusername", checkedNickname)
+    mutationFn: async (checkedUsername) => {
+      const response = await apis.post("/api/user/checkusername", checkedUsername)
       console.log(response);
       return response
     },
@@ -15,8 +15,8 @@ function useCheckNickname() {
   })
 
   return {
-    checkNickname: mutate
+    checkUser: mutate
   }
 }
 
-export default useCheckNickname
+export default useCheckUsername
