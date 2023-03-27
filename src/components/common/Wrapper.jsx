@@ -9,7 +9,7 @@ const StWrapper = styled.div`
   display: flex;
   flex-direction: ${({ flex }) => flex ? flex : 'column'};
   justify-content: center;
-  align-items: center;
+  align-items: ${({ align }) => align ? align : 'center'};;
   width: ${({ width }) => width ? width : '90vw'};
   min-width: 900px;
   height: 100vh;

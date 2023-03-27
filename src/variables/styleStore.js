@@ -9,7 +9,10 @@ export const FlexRow = styled.div`
   justify-content: ${({ justify }) => justify ? justify : 'center'};
   align-items: ${({ align }) => align ? align : 'center'};
 
+  background-color: ${({ BgColor }) => BgColor ? BgColor : 'none'};
+
   gap: ${({ gap }) => gap ? gap : null};
+  ${({ others }) => others}
 `
 
 export const FlexColumn = styled.div`
