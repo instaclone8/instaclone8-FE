@@ -37,11 +37,12 @@ const StHeader = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-evenly;
   border-right: 1px solid #cacaca98;
 
   position: fixed;
   left: 0;
-  width: 18vw;
+  width: 10vw;
   height: 100vh;
 `;
 

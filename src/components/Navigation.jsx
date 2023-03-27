@@ -1,11 +1,17 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ModalBlackBg from "./ModalBlackBg";
 import PostWrite from "./PostWrite";
+import { useGetUsername } from '../api/hooks/useGetUsername'
 
 function Navigation({ openModal, setOpenModal }) {
+  const { username } = useGetUsername()
+  const navigate = useNavigate()
+  console.log('===============', username);
+
   //모달 open 관리
+
   const PostWriteModalOpenHandler = () => {
     setOpenModal(true);
   };
@@ -20,7 +26,7 @@ function Navigation({ openModal, setOpenModal }) {
         <div>
           <button onClick={PostWriteModalOpenHandler}>만들기</button>
         </div>
-        <div>프로필</div>
+        <div onClick={() => navigate(`/mypage/${username.username}`)}>프로필</div>
       </StHeader>
       {/* PostWrite 컴포넌트에 posts.id 넘겨줄 것 */}
       {openModal && <PostWrite setOpenModal={setOpenModal} />}

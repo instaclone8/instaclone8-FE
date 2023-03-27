@@ -4,6 +4,7 @@ import Main from "./../pages/Main";
 import Login from '../pages/Login'
 import Signup from '../pages/Signup'
 import MyPage from '../pages/MyPage';
+import KakaoPage from '../pages/KakaoPage';
 
 function Router() {
   return (
@@ -14,7 +15,8 @@ function Router() {
         <Route path='/signup' element={<Signup />} />
         {/* "/main" = 네비게이션바, 포스팅 조회하는 페이지 */}
         <Route path="/main" element={<Main />} />
-        <Route path="/mypage/:id" element={<MyPage />} />
+        <Route path="/mypage/:username" element={<MyPage />} />
+        <Route path="/kakao" element={<KakaoPage />} />
       </Routes>
     </BrowserRouter>
   );
