@@ -24,21 +24,22 @@ function CheckModal({ children, openModal, setOpenModal, setEmail, type }) {
       </ModalBg>
     )
   } else {
-    <ModalBg openModal={openModal}>
-      <ModalCheckBox>
-        <InsideDiv>
-          <InsideMessage>{children}</InsideMessage>
-          <InsideButtons>
-            <StButton onClick={() => {
-              setEmail('')
-              setOpenModal(false)
-            }} type={type}>취소</StButton>
-          </InsideButtons>
-        </InsideDiv>
+    return (
+      <ModalBg openModal={openModal}>
+        <ModalCheckBox>
+          <InsideDiv>
+            <InsideMessage>{children}</InsideMessage>
+            <InsideButtons>
+              <StButton onClick={() => {
+                setEmail('')
+                setOpenModal(false)
+              }} type={type}>취소</StButton>
+            </InsideButtons>
+          </InsideDiv>
 
-      </ModalCheckBox>
+        </ModalCheckBox>
 
-    </ModalBg>
+      </ModalBg>)
   }
 }
 
