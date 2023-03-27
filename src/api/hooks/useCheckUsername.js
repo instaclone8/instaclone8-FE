@@ -15,7 +15,7 @@ function useCheckUsername() {
   })
 
   return {
-    checkUsername: mutate
+    checkUser: mutate
   }
 }
 

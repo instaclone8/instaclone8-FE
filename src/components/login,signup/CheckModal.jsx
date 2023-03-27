@@ -2,7 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-function CheckModal({ children, openModal, setOpenModal, setEmail, type }) {
+function CheckModal({ children, openModal, setOpenModal, setValue, type, setValidation }) {
 
   console.log(type);
 
@@ -14,7 +14,8 @@ function CheckModal({ children, openModal, setOpenModal, setEmail, type }) {
             <InsideMessage>{children}</InsideMessage>
             <InsideButtons>
               <StButton onClick={() => {
-                setEmail('')
+                setValue('')
+                setValidation(false)
                 setOpenModal(false)
               }} BtType={type}>취소</StButton>
             </InsideButtons>
@@ -33,10 +34,14 @@ function CheckModal({ children, openModal, setOpenModal, setEmail, type }) {
             <InsideMessage>{children}</InsideMessage>
             <InsideButtons>
               <StButton BtType={type} onClick={() => {
-                setEmail('')
+                setValue('')
+                setValidation(false)
                 setOpenModal(false)
               }}>취소</StButton>
-              <StButton button={true} onClick={() => setOpenModal(false)} BtType={type}>사용</StButton>
+              <StButton button={true} onClick={() => {
+                setValidation(true)
+                setOpenModal(false)
+              }} BtType={type}>사용</StButton>
             </InsideButtons>
           </InsideDiv>
 

@@ -17,9 +17,13 @@ function Signup() {
   const [password, passwordOnChange, pwdIsValid] = useValidInput({ type: 'pwd' })
   const [passwordCheck, passwordCheckOnChange] = useInput('')
   const [user, userOnChange, setUser] = useInput('')
-  const [openModal, setOpenModal] = useState(false);
+  const [openEmailModal, setOpenEmailModal] = useState(false);
+  const [openUsernameModal, setOpenUsernameModal] = useState(false);
   const [type, setType] = useState(true);
   const [checkEmailMessage, setCheckEmailMessage] = useState('')
+  const [checkUserMessage, setCheckUserMessage] = useState('')
+  const [emailValidation, setEmailValidation] = useState('')
+  const [usernameValidation, setUsernameValidation] = useState(false)
 
   // 회원가입시 서버에 보낼 정보
   const newUser = {
@@ -37,14 +41,16 @@ function Signup() {
   }
 
   const { signup } = useSignupUser();
-  const { checkEmail, error } = useCheckEmail();
+  const { checkEmail } = useCheckEmail();
   const { checkUser } = useCheckUsername();
 
   return (
     <Wrapper width={'100vw'}>
 
       {/* 이메일 중복 확인 시 모달 */}
-      <CheckModal openModal={openModal} setOpenModal={setOpenModal} setEmail={setEmail} type={type}>{checkEmailMessage}</CheckModal>
+      <CheckModal openModal={openEmailModal} setOpenModal={setOpenEmailModal} setValue={setEmail} type={type} setValidation={setEmailValidation}>{checkEmailMessage}</CheckModal>
+
+      <CheckModal openModal={openUsernameModal} setOpenModal={setOpenUsernameModal} setValue={setUser} type={type} setValidation={setUsernameValidation}>{checkUserMessage}</CheckModal>
 
       <LoginBox login={false} logoMargin={'0'}>
         <UI.FlexColumn width={`80%`} gap={'15px'}>
@@ -67,12 +73,12 @@ function Signup() {
                   onSuccess: () => {
                     setType(true)
                     setCheckEmailMessage('사용가능한 이메일 입니다.')
-                    setOpenModal(true)
+                    setOpenEmailModal(true)
                   },
                   onError: () => {
                     setType(false)
                     setCheckEmailMessage('사용불가')
-                    setOpenModal(true)
+                    setOpenEmailModal(true)
                   }
                 })}>
                 중복 확인
@@ -126,7 +132,18 @@ function Signup() {
                 size={'check'}
                 btnColor={'rgb(113, 194, 244)'}
                 color={'white'}
-                onClick={() => checkUser(checkedUser)}>
+                onClick={() => checkUser(checkedUser, {
+                  onSuccess: () => {
+                    setType(true)
+                    setCheckUserMessage('사용가능한 닉네임 입니다.')
+                    setOpenUsernameModal(true)
+                  },
+                  onError: () => {
+                    setType(false)
+                    setCheckUserMessage('사용불가')
+                    setOpenUsernameModal(true)
+                  }
+                })}>
                 중복 확인
               </Button>
             </UI.FlexRow>
@@ -137,7 +154,9 @@ function Signup() {
         </UI.FlexColumn>
 
         {/* 회원가입, 카카오 회원가입 버튼 */}
-        <Button type={'button'} size={'medium'} btnColor={'rgb(113, 194, 244)'} color={'white'} onClick={() => signup(newUser)}>회원가입</Button>
+        <Button type={'button'} size={'medium'} btnColor={'rgb(113, 194, 244)'} color={'white'} onClick={() => {
+          (emailValidation && usernameValidation) ? signup(newUser) : alert('중복확인을 진행해주세요');
+        }}>회원가입</Button>
         <Line>또는</Line>
         <Kakao> KakaoTalk 로 회원가입</Kakao>
       </LoginBox>
