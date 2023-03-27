@@ -14,7 +14,7 @@ function Home() {
     navigate('/signup')
   }
 
-  return <Wrapper>
+  return <Wrapper width={'100vw'}>
     <Img src='img/instagram-font.png' />
     <Button size={'medium'} onClick={onLoginBtnClickHandler} >로그인</Button>
     <Button size={'medium'}  >카카오 로그인</Button>

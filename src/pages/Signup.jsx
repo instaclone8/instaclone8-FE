@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Line from '../components/login,signup/Line'
 import LoginBox from '../components/login,signup/LoginBox'
 import useInput, { useValidInput } from '../Hook/useInput'
@@ -10,12 +10,14 @@ import Kakao from '../components/login,signup/Kakao'
 import { useSignupUser } from '../api/hooks/useSignupUser'
 import useCheckEmail from '../api/hooks/useCheckEmail'
 import useCheckNickname from '../api/hooks/useCheckNickname'
+import CheckModal from '../components/login,signup/CheckModal'
 
 function Signup() {
   const [email, emailOnChange, idIsValid] = useValidInput({ type: 'email' })
   const [password, passwordOnChange, pwdIsValid] = useValidInput({ type: 'pwd' })
   const [passwordCheck, passwordCheckOnChange] = useInput('')
   const [nickname, nicknameOnChange] = useInput('')
+  const [openModal, setOpenModal] = useState(false);
 
   const newUser = {
     email: email,
@@ -35,8 +37,10 @@ function Signup() {
   const { checkEmail } = useCheckEmail();
   const { checkNickname } = useCheckNickname();
 
+
   return (
     <Wrapper width={'100vw'}>
+      <CheckModal openModal={true} />
       <LoginBox login={false} logoMargin={'0'}>
         <UI.FlexColumn width={`80%`} gap={'15px'}>
           <UI.FlexColumn align={`flex-start`}>
