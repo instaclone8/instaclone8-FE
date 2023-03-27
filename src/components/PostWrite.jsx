@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 function PostWrite({ setOpenModal }) {
@@ -7,8 +7,18 @@ function PostWrite({ setOpenModal }) {
     setOpenModal(false);
   };
 
+  const [img, setImg] = useState("");
+  const [content, setContent] = useState("");
+
+  const postSubmitHandler = e => {
+    // e.preventDefault();
+    // const formdata = new FormData();
+    // formdata.append('img', img)
+    // formdata.append('content', content)
+  };
+
   return (
-    <StWriteModal>
+    <StWriteModal onSubmit={postSubmitHandler}>
       <Head>
         <button onClick={PostWriteModalCloseHandler}>뒤로가기</button>
         <div>새 게시물 만들기</div>
@@ -16,14 +26,14 @@ function PostWrite({ setOpenModal }) {
       </Head>
       <InputWrap>
         <InputImage>
-          <input type="file" />
+          <input type="file" name="img" accept="image/*" />
         </InputImage>
         <InputContentWrap>
           <UserProfile>
             <UserPhoto>프로필사진</UserPhoto>
             <div>닉네임</div>
           </UserProfile>
-          <InputContent type="text" />
+          <InputContent type="text" name="content" />
         </InputContentWrap>
       </InputWrap>
     </StWriteModal>

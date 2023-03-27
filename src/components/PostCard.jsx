@@ -2,39 +2,53 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import PostDetail from "./PostDetail";
 import ModalBlackBg from "./ModalBlackBg";
+import { useGetPosts } from "./../api/hooks/useGetPosts";
+import { useGetPostOne } from "../api/hooks/useGetPostOne";
 
 function PostCard({ setReviseOpenModal }) {
+  const { posts } = useGetPosts();
+  console.log(posts, "PostCard");
+
   //모달 open 관리
   const [openModal, setOpenModal] = useState(false);
-  const PostWriteModalOpenHandler = () => {
-    setOpenModal(true);
+  const PostWriteModalOpenHandler = id => {
+    const { postOne } = useGetPostOne(id);
+    postOne(id);
+    // setOpenModal(true);
+    console.log(id);
   };
 
   return (
     <>
-      <StPostComponent>
-        <PostProfile>
-          <ProfilePhoto>유저프로필</ProfilePhoto>
-          <ProfileName>닉네임</ProfileName>
-        </PostProfile>
-        <PostPhoto>사진</PostPhoto>
-        <PostLike>
-          <div>좋아요</div>
-          <div>좋아요 0개</div>
-        </PostLike>
-        <PostContent>게시글내용 보여주는 곳 게시글내용 보여주는 곳</PostContent>
-        <PostCmt>
-          <div>댓글 0개</div>
+      {posts?.map(post => (
+        <StPostComponent key={post.postId}>
+          <PostProfile>
+            <ProfilePhoto>{post.userImage}</ProfilePhoto>
+            <ProfileName>{post.username}</ProfileName>
+          </PostProfile>
+          <PostPhoto>사진</PostPhoto>
+          <PostLike>
+            <div>좋아요</div>
+            <div>좋아요 {post.likeCnt}개</div>
+          </PostLike>
+          <PostContent>{post.content}</PostContent>
+          <PostCmt>
+            <div>댓글 {post.commentCnt}개</div>
 
-          {/* 상세페이지 모달 */}
-          <div>
-            <button onClick={PostWriteModalOpenHandler}>댓글 작성</button>
-          </div>
-        </PostCmt>
-      </StPostComponent>
-      {/* PostWrite 컴포넌트에 posts.id 넘겨줄 것 */}
+            {/* 상세페이지 모달 */}
+            <div>
+              <button onClick={() => PostWriteModalOpenHandler(post.postId)}>
+                댓글 작성
+              </button>
+            </div>
+          </PostCmt>
+        </StPostComponent>
+      ))}
+
+      {/* PostWrite 컴포넌트에 post.id 넘겨줄 것 */}
       {openModal && (
         <PostDetail
+          // id={post.postId}
           setOpenModal={setOpenModal}
           setReviseOpenModal={setReviseOpenModal}
         />

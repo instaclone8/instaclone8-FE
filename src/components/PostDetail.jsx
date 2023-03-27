@@ -1,7 +1,10 @@
+import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import styled from "styled-components";
+import { useGetPostOne } from "../api/hooks/useGetPostOne";
+import { keys } from "../api/utils/createQueryKey";
 
-function PostDetail({ setOpenModal, setReviseOpenModal }) {
+function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
   //모달 close 관리
   const PostWriteModalCloseHandler = () => {
     setOpenModal(false);
@@ -12,22 +15,27 @@ function PostDetail({ setOpenModal, setReviseOpenModal }) {
     setReviseOpenModal(true);
   };
 
+  //쿼리클라이언트 - 유즈쿼리키
+  const queryClient = useQueryClient();
+  console.log(queryClient.getQueriesData(keys.GET_POST_ONE));
+  const { postOne } = useGetPostOne(id);
+
   return (
     <StPostDetailModal>
       <StDetail>
-        <Photo>사진</Photo>
+        <Photo>{postOne.image}</Photo>
         <StContentWrap>
           <UserInfoWrap>
             <UserInfo>
-              <UserPhoto>프사</UserPhoto>
-              <div>닉네임</div>
+              <UserPhoto>{postOne.userImage}</UserPhoto>
+              <div>{postOne.username}</div>
             </UserInfo>
             <div>
               <CloseBtn onClick={PostWriteModalCloseHandler}>X</CloseBtn>
             </div>
           </UserInfoWrap>
           <ContentBox>
-            <Content>게시글 내용 들어갈 부분 게시글 내용 들어갈 부분</Content>
+            <Content>{postOne.content}</Content>
             <ContentBtn>
               <button onClick={ClickGoUpdateModalHandler}>수정하기</button>
               <button>삭제하기</button>
@@ -35,7 +43,7 @@ function PostDetail({ setOpenModal, setReviseOpenModal }) {
           </ContentBox>
           <PostLike>
             <div>좋아요</div>
-            <div>좋아요 0개</div>
+            <div>좋아요 {postOne.likeCnt}개</div>
           </PostLike>
           <CommentWrap>
             <div>기존에 달려있던 댓글 가져오기</div>
