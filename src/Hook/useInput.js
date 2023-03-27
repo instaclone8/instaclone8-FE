@@ -9,7 +9,7 @@ function useInput(initialValue) {
     setInputValue(e.target.value);
   };
 
-  return [inputValue, handleChange];
+  return [inputValue, handleChange, setInputValue];
 }
 
 
@@ -37,7 +37,7 @@ export function useValidInput({ type }) {
     setIsValid(isValid);
   };
 
-  return [inputValue, handleChange, isValid];
+  return [inputValue, handleChange, isValid, setInputValue];
 }
 
 

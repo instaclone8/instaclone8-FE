@@ -13,11 +13,12 @@ import useCheckNickname from '../api/hooks/useCheckNickname'
 import CheckModal from '../components/login,signup/CheckModal'
 
 function Signup() {
-  const [email, emailOnChange, idIsValid] = useValidInput({ type: 'email' })
+  const [email, emailOnChange, idIsValid, setEmail] = useValidInput({ type: 'email' })
   const [password, passwordOnChange, pwdIsValid] = useValidInput({ type: 'pwd' })
   const [passwordCheck, passwordCheckOnChange] = useInput('')
-  const [nickname, nicknameOnChange] = useInput('')
+  const [nickname, nicknameOnChange, setNickname] = useInput('')
   const [openModal, setOpenModal] = useState(false);
+  const [type, setType] = useState(true);
 
   const newUser = {
     email: email,
@@ -33,14 +34,14 @@ function Signup() {
     username: nickname
   }
 
-  const { signup } = useSignupUser();
+  const { signup } = useSignupUser(setOpenModal, setType);
   const { checkEmail } = useCheckEmail();
   const { checkNickname } = useCheckNickname();
 
 
   return (
     <Wrapper width={'100vw'}>
-      <CheckModal openModal={true} />
+      <CheckModal openModal={openModal} setOpenModal={setOpenModal} setEmail={setEmail} type={true}>asdfadsf</CheckModal>
       <LoginBox login={false} logoMargin={'0'}>
         <UI.FlexColumn width={`80%`} gap={'15px'}>
           <UI.FlexColumn align={`flex-start`}>
@@ -56,7 +57,13 @@ function Signup() {
                 btnColor={'rgb(113, 194, 244)'}
                 color={'white'}
                 type='button'
-                onClick={() => checkEmail(checkedEmail)}>
+                onClick={() => checkEmail(checkedEmail, {
+                  onSuccess: () => setOpenModal(true),
+                  onError: () => {
+                    setType(false)
+                    setOpenModal(true)
+                  }
+                })}>
                 중복 확인
               </Button>
             </UI.FlexRow>
