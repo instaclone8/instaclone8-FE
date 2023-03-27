@@ -1,30 +1,28 @@
 import styled from 'styled-components'
 
-
-export const EmailDiv = styled.div`
-  width: 100%;
-  height: fit-content;
+export const FlexRow = styled.div`
+  width: ${({ width }) => width ? width : '100%'};
+  height: ${({ height }) => height ? height : 'fit-content'};
 
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: ${({ justify }) => justify ? justify : 'center'};
+  align-items: ${({ align }) => align ? align : 'center'};
 
-  gap: 30px;
+  gap: ${({ gap }) => gap ? gap : null};
 `
 
-export const SignupDiv = styled.div`
-  width: 80%;
+export const FlexColumn = styled.div`
+  width: ${({ width }) => width ? width : '100%'};
+  height: ${({ height }) => height ? height : 'fit-content'};
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 15px;
-`
+  justify-content: ${({ justify }) => justify ? justify : 'center'};
+  align-items: ${({ align }) => align ? align : 'center'};
 
-export const Div = styled.div`
-  width: 100%;
-  height: fit-content;
-  display: flex;
-  flex-direction: column;
+  gap: ${({ gap }) => gap ? gap : null};
+
 `
 
 export const Warning = styled.span`

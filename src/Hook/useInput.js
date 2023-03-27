@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+
+// 평범한 useInput
 function useInput(initialValue) {
   const [inputValue, setInputValue] = useState(initialValue);
 
@@ -7,9 +9,11 @@ function useInput(initialValue) {
     setInputValue(e.target.value);
   };
 
-  return [inputValue, handleChange];
+  return [inputValue, handleChange, setInputValue];
 }
 
+
+// 유효성 검사 useInput
 export function useValidInput({ type }) {
   const [inputValue, setInputValue] = useState('');
   const [isValid, setIsValid] = useState(false);
@@ -33,7 +37,7 @@ export function useValidInput({ type }) {
     setIsValid(isValid);
   };
 
-  return [inputValue, handleChange, isValid];
+  return [inputValue, handleChange, isValid, setInputValue];
 }
 
 
