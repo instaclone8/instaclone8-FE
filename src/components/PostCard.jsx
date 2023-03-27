@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PostDetail from "./PostDetail";
 import ModalBlackBg from "./ModalBlackBg";
 
-function PostCard() {
+function PostCard({ setReviseOpenModal }) {
   //모달 open 관리
   const [openModal, setOpenModal] = useState(false);
   const PostWriteModalOpenHandler = () => {
@@ -33,7 +33,12 @@ function PostCard() {
         </PostCmt>
       </StPostComponent>
       {/* PostWrite 컴포넌트에 posts.id 넘겨줄 것 */}
-      {openModal && <PostDetail setOpenModal={setOpenModal} />}
+      {openModal && (
+        <PostDetail
+          setOpenModal={setOpenModal}
+          setReviseOpenModal={setReviseOpenModal}
+        />
+      )}
       {/* 모달 열림과 동시에 어두운 백그라운드 넣어주고 어두운 부분 클릭시 모달 닫힘 */}
       {openModal && <ModalBlackBg setOpenModal={setOpenModal} />}
     </>

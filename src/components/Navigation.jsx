@@ -4,9 +4,8 @@ import styled from "styled-components";
 import ModalBlackBg from "./ModalBlackBg";
 import PostWrite from "./PostWrite";
 
-function Navigation() {
+function Navigation({ openModal, setOpenModal }) {
   //모달 open 관리
-  const [openModal, setOpenModal] = useState(false);
   const PostWriteModalOpenHandler = () => {
     setOpenModal(true);
   };

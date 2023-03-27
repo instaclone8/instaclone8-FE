@@ -1,10 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 
-function PostDetail({ setOpenModal }) {
+function PostDetail({ setOpenModal, setReviseOpenModal }) {
   //모달 close 관리
   const PostWriteModalCloseHandler = () => {
     setOpenModal(false);
+  };
+
+  const ClickGoUpdateModalHandler = () => {
+    setOpenModal(false);
+    setReviseOpenModal(true);
   };
 
   return (
@@ -24,7 +29,7 @@ function PostDetail({ setOpenModal }) {
           <ContentBox>
             <Content>게시글 내용 들어갈 부분 게시글 내용 들어갈 부분</Content>
             <ContentBtn>
-              <button>수정하기</button>
+              <button onClick={ClickGoUpdateModalHandler}>수정하기</button>
               <button>삭제하기</button>
             </ContentBtn>
           </ContentBox>
