@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import apis from '../../axios/api';
 
 function useCheckEmail() {
-  const { mutate } = useMutation({
+  const { mutate, error } = useMutation({
     mutationFn: async (email) => {
       const response = await apis.post('/api/user/checkemail', email)
       console.log(response);
@@ -11,7 +11,8 @@ function useCheckEmail() {
   })
 
   return {
-    checkEmail: mutate
+    checkEmail: mutate,
+    error,
   }
 }
 

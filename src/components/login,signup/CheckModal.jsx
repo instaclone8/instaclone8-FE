@@ -4,7 +4,9 @@ import styled from 'styled-components'
 
 function CheckModal({ children, openModal, setOpenModal, setEmail, type }) {
 
-  if (type) {
+  console.log(type);
+
+  if (type === false) {
     return (
       <ModalBg openModal={openModal}>
         <ModalCheckBox>
@@ -14,8 +16,27 @@ function CheckModal({ children, openModal, setOpenModal, setEmail, type }) {
               <StButton onClick={() => {
                 setEmail('')
                 setOpenModal(false)
+              }} BtType={type}>취소</StButton>
+            </InsideButtons>
+          </InsideDiv>
+
+        </ModalCheckBox>
+
+      </ModalBg>)
+
+  } else {
+
+    return (
+      <ModalBg openModal={openModal}>
+        <ModalCheckBox>
+          <InsideDiv>
+            <InsideMessage>{children}</InsideMessage>
+            <InsideButtons>
+              <StButton BtType={type} onClick={() => {
+                setEmail('')
+                setOpenModal(false)
               }}>취소</StButton>
-              <StButton button={true} onClick={() => setOpenModal(false)}>사용</StButton>
+              <StButton button={true} onClick={() => setOpenModal(false)} BtType={type}>사용</StButton>
             </InsideButtons>
           </InsideDiv>
 
@@ -23,23 +44,6 @@ function CheckModal({ children, openModal, setOpenModal, setEmail, type }) {
 
       </ModalBg>
     )
-  } else {
-    return (
-      <ModalBg openModal={openModal}>
-        <ModalCheckBox>
-          <InsideDiv>
-            <InsideMessage>{children}</InsideMessage>
-            <InsideButtons>
-              <StButton onClick={() => {
-                setEmail('')
-                setOpenModal(false)
-              }} type={type}>취소</StButton>
-            </InsideButtons>
-          </InsideDiv>
-
-        </ModalCheckBox>
-
-      </ModalBg>)
   }
 }
 
@@ -59,9 +63,10 @@ const InsideButtons = styled.div`
 `
 const StButton = styled.button`
 background-color: ${({ button }) => button ? `green` : `red`};
-  width: ${({ type }) => type ? `50%` : `100%`};
+  width: ${({ BtType }) => BtType ? `50%` : `100%`};
   height: 100%;
   border: none;
+  cursor: pointer;
 `
 
 const InsideDiv = styled.div`

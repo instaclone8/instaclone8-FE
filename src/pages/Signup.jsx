@@ -19,6 +19,7 @@ function Signup() {
   const [user, userOnChange, setUser] = useInput('')
   const [openModal, setOpenModal] = useState(false);
   const [type, setType] = useState(true);
+  const [checkEmailMessage, setCheckEmailMessage] = useState('')
 
   // 회원가입시 서버에 보낼 정보
   const newUser = {
@@ -36,16 +37,14 @@ function Signup() {
   }
 
   const { signup } = useSignupUser();
-  const { checkEmail } = useCheckEmail();
+  const { checkEmail, error } = useCheckEmail();
   const { checkUser } = useCheckUsername();
 
   return (
     <Wrapper width={'100vw'}>
 
-
-
       {/* 이메일 중복 확인 시 모달 */}
-      <CheckModal openModal={openModal} setOpenModal={setOpenModal} setEmail={setEmail} type={true}>asdfadsf</CheckModal>
+      <CheckModal openModal={openModal} setOpenModal={setOpenModal} setEmail={setEmail} type={type}>{checkEmailMessage}</CheckModal>
 
       <LoginBox login={false} logoMargin={'0'}>
         <UI.FlexColumn width={`80%`} gap={'15px'}>
@@ -65,19 +64,22 @@ function Signup() {
                 color={'white'}
                 type='button'
                 onClick={() => checkEmail(checkedEmail, {
-                  onSuccess: () => setOpenModal(true),
+                  onSuccess: () => {
+                    setType(true)
+                    setCheckEmailMessage('사용가능한 이메일 입니다.')
+                    setOpenModal(true)
+                  },
                   onError: () => {
                     setType(false)
-                    console.log(type);
+                    setCheckEmailMessage('사용불가')
                     setOpenModal(true)
-                    console.log(openModal);
                   }
                 })}>
                 중복 확인
               </Button>
 
             </UI.FlexRow>
-            {idIsValid ? <UI.Warning color='green'>유효한 아이디 입니다.</UI.Warning> : <UI.Warning color='red'>이메일 형식을 확인해 주세요</UI.Warning>}
+            {email ? (idIsValid ? <UI.Warning color='green'>유효한 아이디 입니다.</UI.Warning> : <UI.Warning color='red'>이메일 형식을 확인해 주세요</UI.Warning>) : <UI.Warning color='black'>이메일을 입력해주세요.</UI.Warning>}
 
             {/* 비밀번호, 비밀번호 확인 인풋 */}
           </UI.FlexColumn>
@@ -90,7 +92,7 @@ function Signup() {
               onChange={passwordOnChange}>
               비밀번호
             </Input>
-            {pwdIsValid ? <UI.Warning color='green'>유효한 비밀번호 입니다.</UI.Warning> : <UI.Warning color='red'>알파벳, 숫자, 특수문자를 하나씩 사용하여 6~15자 사이로 입력해 주세요</UI.Warning>}
+            {password ? (pwdIsValid ? <UI.Warning color='green'>유효한 비밀번호 입니다.</UI.Warning> : <UI.Warning color='red'>알파벳, 숫자, 특수문자를 하나씩 사용하여 6~15자 사이로 입력해 주세요</UI.Warning>) : <UI.Warning color='black'>알파벳, 숫자, 특수문자를 하나씩 사용하여 6~15자 사이로 입력해 주세요</UI.Warning>}
           </UI.FlexColumn>
 
           <UI.FlexColumn align={`flex-start`}>
@@ -103,9 +105,9 @@ function Signup() {
             >
               비밀번호 확인
             </Input>
-            {passwordCheck === password && password ?
+            {passwordCheck ? (passwordCheck === password && password ?
               <UI.Warning color='green'>동일한 비밀번호입니다.</UI.Warning>
-              : <UI.Warning color='red'>비밀번호가 일치하지 않습니다.</UI.Warning>}
+              : <UI.Warning color='red'>비밀번호가 일치하지 않습니다.</UI.Warning>) : null}
           </UI.FlexColumn>
           <UI.FlexColumn align={`flex-start`}>
 

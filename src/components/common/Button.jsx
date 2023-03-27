@@ -43,6 +43,7 @@ const StButton = styled.button`
   color: ${(props) => props.color};
   border: 1px solid lightgray;
   border-radius: 10px;
+  cursor: pointer;
   ${(props) => props.buttonSize}
   ${(props) => props.others}
 
