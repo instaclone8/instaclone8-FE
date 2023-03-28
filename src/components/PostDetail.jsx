@@ -1,11 +1,19 @@
 import { useQueryClient } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useGetPostOne } from "../api/hooks/useGetPostOne";
 import { useUpdatePost } from "../api/hooks/useUpdatePost";
 import { useDeletePost } from "./../api/hooks/useDeletePost";
 
 function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
+  // 미리보기 이미지 base64를 담는 state
+  const [img, setImg] = useState(null);
+
+  const inputRef = useRef(null);
+
+  //게시글 상세조회
+  const { postOne } = useGetPostOne(id);
+
   //수정하기 클릭시 isEditMode=true
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -14,13 +22,54 @@ function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
     setOpenModal(false);
   };
 
-  //수정 모드
+  //수정 모드 open
   const ClickGoUpdateModalHandler = () => {
     setIsEditMode(true);
+    // console.log(id, "update id");
   };
 
-  //게시글 상세조회
-  const { postOne } = useGetPostOne(id);
+  //게시글 수정
+  const { updatePost } = useUpdatePost(id);
+  const [editPost, setEditPost] = useState({
+    image: postOne?.image,
+    content: postOne?.content,
+  });
+
+  console.log(postOne, "postOne");
+  console.log(editPost, "edit");
+
+  const changeInputHandler = event => {
+    const { value, name } = event.target;
+    setEditPost(pre => ({ ...pre, [name]: value }));
+  };
+
+  const imageHandler = e => {
+    // 이미지 파일을 base64로 변환시켜주는 코드
+    const fileReader = new FileReader();
+    const inputImage = e.target.files[0];
+
+    fileReader.readAsDataURL(inputImage);
+    fileReader.onloadend = () => {
+      setEditPost(pre => ({ ...pre, image: fileReader.result }));
+    };
+  };
+
+  const inputSubmitHandler = e => {
+    // e.preventDefault();
+    const file = inputRef.current.files[0];
+    const formData = new FormData();
+    if (file) {
+      formData.append("image", file);
+    }
+    formData.append("content", editPost.content);
+    updatePost({ formData, id });
+    setOpenModal(false);
+  };
+
+  //상세보기에서 수정할때 기존의 데이터 불러오는 useEffect
+  useEffect(() => {
+    setEditPost({ image: postOne?.image, content: postOne?.content });
+  }, [isEditMode]);
 
   //게시글 삭제
   const { deletePost, status } = useDeletePost();
@@ -29,51 +78,47 @@ function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
     setOpenModal(false);
   };
 
-  //게시글 수정
-  const { updatePost } = useUpdatePost();
-  const [editPost, setEditPost] = useState({
-    image: "",
-    content: "",
-  });
-
-  const changeInputHandler = event => {
-    const { value, name } = event.target;
-    setEditPost(pre => ({ ...pre, [name]: value }));
-  };
-
-  const inputSubmitHandler = e => {
-    e.preventDefault();
-    updatePost(editPost);
-    setOpenModal(false);
-  };
-
   return (
     <>
       {isEditMode ? (
-        <StPostDetailModal w="1000" h="700" top="10" left="25">
+        <StPostDetailModal
+          w="1000"
+          h="700"
+          top="10"
+          left="25"
+          btr="10"
+          btl="10"
+          bbr="10"
+          bbl="10"
+        >
           <StDetail>
             <Head>
               <button onClick={PostWriteModalCloseHandler}>뒤로가기</button>
               <div>게시물 수정하기</div>
-              <button onClick={inputSubmitHandler}>수정하기</button>
+              <button onClick={() => inputSubmitHandler(postOne?.postId)}>
+                수정하기
+              </button>
             </Head>
             <InputWrap>
               <InputImage>
                 <input
+                  ref={inputRef}
                   type="file"
                   name="image"
                   accept="image/*"
-                  onChange={changeInputHandler}
+                  onChange={imageHandler}
                 />
+                <img src={editPost.image} alt="게시글 이미지" />
               </InputImage>
               <InputContentWrap>
                 <UserProfile>
-                  <UserPhoto>프로필사진</UserPhoto>
-                  <div>닉네임</div>
+                  <UserPhoto>{postOne?.userImage}</UserPhoto>
+                  <div>{postOne?.username}</div>
                 </UserProfile>
                 <InputContent
                   type="text"
                   name="content"
+                  value={editPost.content}
                   onChange={changeInputHandler}
                 />
               </InputContentWrap>
@@ -81,9 +126,9 @@ function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
           </StDetail>
         </StPostDetailModal>
       ) : (
-        <StPostDetailModal w="1400" h="800" top="7" left="15">
+        <StPostDetailModal w="1400" h="800" top="7" left="15" btr="10" bbr="10">
           <StDetail display="flex">
-            <Photo>{postOne?.image}</Photo>
+            <Photo src={postOne?.image} alt={postOne?.content} />
             <StContentWrap>
               <UserInfoWrap>
                 <UserInfo>
@@ -127,8 +172,10 @@ export default PostDetail;
 const StPostDetailModal = styled.div`
   background-color: white;
 
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-top-right-radius: ${({ btr }) => btr}px;
+  border-top-left-radius: ${({ btl }) => btl}px;
+  border-bottom-right-radius: ${({ bbr }) => bbr}px;
+  border-bottom-left-radius: ${({ bbl }) => bbl}px;
 
   width: ${({ w }) => w}px;
   height: ${({ h }) => h}px;
@@ -145,7 +192,7 @@ const StDetail = styled.div`
   justify-content: space-between;
 `;
 
-const Photo = styled.div`
+const Photo = styled.img`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -251,10 +298,16 @@ const UserProfile = styled.div`
 
 const InputImage = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 550px;
   height: 100%;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 const InputContentWrap = styled.div`
   display: flex;

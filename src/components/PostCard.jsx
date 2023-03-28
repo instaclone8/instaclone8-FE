@@ -26,7 +26,7 @@ function PostCard({ setReviseOpenModal }) {
             <ProfilePhoto>{post.userImage}</ProfilePhoto>
             <ProfileName>{post.username}</ProfileName>
           </PostProfile>
-          <PostPhoto>사진</PostPhoto>
+          <PostPhoto src={post.image} alt={post.username} />
           <PostLike>
             <div>좋아요</div>
             <div>좋아요 {post.likeCnt}개</div>
@@ -93,7 +93,7 @@ const ProfileName = styled.div`
   text-align: center;
 `;
 
-const PostPhoto = styled.div`
+const PostPhoto = styled.img`
   //사진 들어가면 border 없앨 예정
   border: 1px solid gray;
   border-radius: 5px;

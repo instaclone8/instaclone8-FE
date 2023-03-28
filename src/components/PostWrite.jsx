@@ -1,66 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { useAddPost } from "./../api/hooks/useAddPost";
 
 function PostWrite({ setOpenModal }) {
+  const inputRef = useRef(null);
+
   //모달 close 관리
   const PostWriteModalCloseHandler = () => {
     setOpenModal(false);
   };
 
-  const [inputPost, setInputPost] = useState({
-    image: "",
-    content: "",
-  });
-
-  const changeInputHandler = event => {
-    const { value, name } = event.target;
-    setInputPost(pre => ({ ...pre, [name]: value }));
-  };
-
-  // const [image, setImg] = useState("");
-  // const [content, setContent] = useState("");
+  const [image, setImg] = useState("");
+  const [content, setContent] = useState("");
 
   const { addPost, addPostIsLoading } = useAddPost();
 
-  // const changeImageHandler = e => {
-  //   setImg(e.target.files[0]);
-  //   // let fileReader = new FileReader();
-  //   // let img = e.target.files[0];
-  //   // fileReader.readAsDataURL(img);
-  //   // fileReader.onload = () => {
-  //   //   setImg(fileReader.result);
-  //   // };
-  // };
+  const changeImageHandler = e => {
+    let fileReader = new FileReader();
+    let inputImage = e.target.files[0];
+    setImg(inputImage);
+    fileReader.readAsDataURL(inputImage);
+    fileReader.onloadend = () => {
+      setImg(fileReader.result);
+    };
+  };
 
-  // const changeContentHandler = e => {
-  //   setContent(e.target.value);
-  // };
+  const changeContentHandler = e => {
+    setContent(e.target.value);
+  };
 
   const inputSubmitHandler = e => {
     e.preventDefault();
-    // const formData = new FormData();
-    // formData.append("image", image);
-    // formData.append("content", content);
-    // addPost(formData);
-    addPost(inputPost);
+    const file = inputRef.current.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("content", content);
+    addPost(formData);
     setOpenModal(false);
   };
 
   return (
-    <StWriteModal>
+    <StWriteModal onSubmit={inputSubmitHandler}>
       <Head>
         <button onClick={PostWriteModalCloseHandler}>뒤로가기</button>
         <div>새 게시물 만들기</div>
-        <button onClick={inputSubmitHandler}>게시하기</button>
+        <button>게시하기</button>
       </Head>
       <InputWrap>
         <InputImage>
           <input
+            ref={inputRef}
             type="file"
             name="image"
             accept="image/*"
-            onChange={changeInputHandler}
+            onChange={changeImageHandler}
           />
         </InputImage>
         <InputContentWrap>
@@ -71,7 +64,7 @@ function PostWrite({ setOpenModal }) {
           <InputContent
             type="text"
             name="content"
-            onChange={changeInputHandler}
+            onChange={changeContentHandler}
           />
         </InputContentWrap>
       </InputWrap>
@@ -81,7 +74,7 @@ function PostWrite({ setOpenModal }) {
 
 export default PostWrite;
 
-const StWriteModal = styled.div`
+const StWriteModal = styled.form`
   background-color: white;
   border-radius: 30px;
   width: 1000px;
