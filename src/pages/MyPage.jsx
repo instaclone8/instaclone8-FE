@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { useGetMypost } from '../api/hooks/useGetMypost'
 import Wrapper from '../components/common/Wrapper'
 import NavTest from '../components/NavTest'
 import * as UI from '../variables/styleStore'
-import { BsFillSuitHeartFill } from 'react-icons/bs'
-import { FaComment } from 'react-icons/fa'
 import PostDetail from '../components/PostDetail'
 import ModalBlackBg from '../components/ModalBlackBg'
+import MyCard from '../components/MyCard'
 
 function MyPage() {
 
@@ -19,13 +18,9 @@ function MyPage() {
     setCurrentId(id);
     setOpenModal(true);
   };
-  ///////////////////////////////////////////
 
   const params = useParams();
   const { myPost } = useGetMypost(params.username);
-
-  console.log(`params=====`, params.username);
-  console.log('================', myPost?.posts);
 
   return (
     <Wrapper flex={'row'} align={`flex-start`}>
@@ -37,15 +32,12 @@ function MyPage() {
             <NicknameDiv>{myPost?.username}</NicknameDiv>
             <NicknameDiv>게시물 {myPost?.postsCnt}개</NicknameDiv>
           </UI.FlexColumn>
-        </UI.FlexRow>
-        <UI.FlexRow BgColor={`beige`} height={`fit-content`} justify={`space-between`} wrap={'wrap'}>
+        </UI.FlexRow >
+        <UI.FlexRow BgColor={`beige`} height={`fit-content`} justify={`space-between`} wrap={'wrap'} overflow={'scroll'}>
           {myPost?.posts?.map((post) => {
             return (
               <div key={post.postId}>
-                <MyCard onClick={() => PostWriteModalOpenHandler(post.postId)}>
-                  <BsFillSuitHeartFill /> {post.likeCnt}
-                  <FaComment />{post.commentCnt}
-                </MyCard>
+                <MyCard onClick={() => PostWriteModalOpenHandler(post.postId)} post={post} />
               </div>
             )
 
@@ -69,20 +61,6 @@ function MyPage() {
     </Wrapper>
   )
 }
-
-const MyCard = styled.div`
-  background-color: green;
-  width: 280px;
-  height: 280px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 5px;
-  &:hover {
-    background-color: #005b00;
-  }
-`
 
 const NicknameDiv = styled.div`
 background-color: aqua;

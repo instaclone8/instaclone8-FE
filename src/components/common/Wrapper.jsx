@@ -15,8 +15,6 @@ const StWrapper = styled.div`
   height: 100vh;
   margin: auto;
   gap: 10px;
-  // 구분용 백그라운드
-  background-color: #f1f1f1;
   // 고정 테스트
   position: fixed;
   right: 0;
