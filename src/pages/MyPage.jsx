@@ -28,9 +28,12 @@ function MyPage() {
         </UI.FlexRow>
         <UI.FlexRow BgColor={`beige`} height={`fit-content`} justify={`space-between`}>
           {myPost?.posts?.map((post) => {
-            <MyCard>
-              <BsFillSuitHeartFill />
-            </MyCard>
+            return (
+              <MyCard>
+                <BsFillSuitHeartFill />
+              </MyCard>
+            )
+
           })}
 
         </UI.FlexRow>
@@ -47,6 +50,7 @@ const MyCard = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 `
 
 const NicknameDiv = styled.div`

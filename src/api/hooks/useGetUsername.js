@@ -4,15 +4,21 @@ import { apis_token } from '../../axios/api';
 export const useGetUsername = id => {
   console.log(id, "postId");
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: 'GET_USERNAME',
     queryFn: async () => {
       const data = await apis_token.get(`/api/user/username`);
-      console.log(data);
       return data.data;
     },
+    onSuccess: () => {
+      console.log('@@@@@@@@@@@@@@', data);
+    },
+    onError: () => {
+      console.log('@@@@@@@@@@@@@@', data);
+    }
   });
   return {
     username: data,
+    usernameIsLoading: isLoading
   };
 };

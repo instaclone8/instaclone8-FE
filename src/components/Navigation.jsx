@@ -9,6 +9,9 @@ function Navigation({ openModal, setOpenModal }) {
   const { username } = useGetUsername()
   const navigate = useNavigate()
 
+  console.log('username========', username);
+  console.log('========', useGetUsername());
+
   //모달 open 관리
 
   const PostWriteModalOpenHandler = () => {
@@ -25,7 +28,7 @@ function Navigation({ openModal, setOpenModal }) {
         <div>
           <button onClick={PostWriteModalOpenHandler}>만들기</button>
         </div>
-        <div onClick={() => navigate(`/mypage/${username.username}`)}>프로필</div>
+        <div onClick={() => navigate(`/mypage/${username?.username}`)}>프로필</div>
       </StHeader>
       {/* PostWrite 컴포넌트에 posts.id 넘겨줄 것 */}
       {openModal && <PostWrite setOpenModal={setOpenModal} />}
