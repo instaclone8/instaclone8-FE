@@ -40,3 +40,7 @@ export const Warning = styled.span`
   color: ${props => props.color};
   font-size: 3px;
 `
+
+export const Img = styled.img`
+  height: 100%;
+`
