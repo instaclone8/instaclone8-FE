@@ -9,8 +9,12 @@ export const FlexRow = styled.div`
   justify-content: ${({ justify }) => justify ? justify : 'center'};
   align-items: ${({ align }) => align ? align : 'center'};
   flex-wrap: ${({ wrap }) => wrap ? wrap : null};
-
+  font-size: ${({ fontSize }) => fontSize ? fontSize : ``};
+  color: ${({ color }) => color ? color : ``};
+  
   background-color: ${({ BgColor }) => BgColor ? BgColor : 'none'};
+
+  overflow: ${({ overflow }) => overflow ? overflow : null};
 
   gap: ${({ gap }) => gap ? gap : null};
   ${({ others }) => others}
@@ -24,6 +28,9 @@ export const FlexColumn = styled.div`
   flex-direction: column;
   justify-content: ${({ justify }) => justify ? justify : 'center'};
   align-items: ${({ align }) => align ? align : 'center'};
+  overflow: ${({ overflow }) => overflow ? overflow : null};
+
+  background-color: ${({ BgColor }) => BgColor ? BgColor : 'none'};
 
   gap: ${({ gap }) => gap ? gap : null};
 
