@@ -1,10 +1,9 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Cookies from "universal-cookie";
 import Wrapper from '../components/common/Wrapper'
-import styled from 'styled-components'
 
 
 function KakaoPage() {
@@ -36,7 +35,7 @@ function KakaoPage() {
       console.log('code 실행')
       refetch().then(() => navigate('/main'))
     }
-  }, [kakaoCode, refetch])
+  }, [kakaoCode, refetch, navigate])
 
 
 

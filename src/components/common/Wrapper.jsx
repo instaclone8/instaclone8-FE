@@ -15,6 +15,7 @@ const StWrapper = styled.div`
   height: 100vh;
   margin: auto;
   gap: 10px;
+  overflow: ${({ overflow }) => overflow ? overflow : null};
   // 고정 테스트
   position: fixed;
   right: 0;

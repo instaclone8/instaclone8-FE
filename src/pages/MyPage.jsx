@@ -21,11 +21,12 @@ function MyPage() {
 
   const params = useParams();
   const { myPost } = useGetMypost(params.username);
+  console.log(myPost);
 
   return (
-    <Wrapper flex={'row'} align={`flex-start`}>
+    <Wrapper flex={'row'} align={`flex-start`} overflow={'scroll'}>
       <NavTest />
-      <UI.FlexColumn width={`850px`}>
+      <UI.FlexColumn width={`860px`}>
         <UI.FlexRow BgColor={`white`} justify={`flex-start`} others={`margin : 50px 0 50px`}>
           <ProfileImg />
           <UI.FlexColumn width={'fit-content'} gap={`20px`}>
@@ -33,14 +34,13 @@ function MyPage() {
             <NicknameDiv>게시물 {myPost?.postsCnt}개</NicknameDiv>
           </UI.FlexColumn>
         </UI.FlexRow >
-        <UI.FlexRow BgColor={`beige`} height={`fit-content`} justify={`space-between`} wrap={'wrap'} overflow={'scroll'}>
+        <UI.FlexRow BgColor={`beige`} height={`fit-content`} justify={`flex-start`} wrap={'wrap'} overflow={'scroll'}>
           {myPost?.posts?.map((post) => {
             return (
               <div key={post.postId}>
                 <MyCard onClick={() => PostWriteModalOpenHandler(post.postId)} post={post} />
               </div>
             )
-
           })}
 
           {/* 재란님 오픈모달 가져옴!!////////////////////// */}

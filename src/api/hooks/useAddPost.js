@@ -15,6 +15,7 @@ export const useAddPost = formData => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: keys.GET_POSTS });
+        queryClient.invalidateQueries({ queryKey: keys.GET_MYPOST });
       },
     }
   );
