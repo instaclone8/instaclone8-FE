@@ -32,7 +32,7 @@ function KakaoPage() {
 
 
   return (
-    <Wrapper>
+    <Wrapper width={`100vw`}>
       <Img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSwBaWDpA8UkXW71CnThivS3w6c2PxgyCWJw&usqp=CAU" alt="... 로딩중" />
     </Wrapper>
   )
