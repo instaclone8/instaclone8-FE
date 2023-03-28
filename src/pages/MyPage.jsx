@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { useGetMypost } from '../api/hooks/useGetMypost'
@@ -6,8 +6,20 @@ import Wrapper from '../components/common/Wrapper'
 import NavTest from '../components/NavTest'
 import * as UI from '../variables/styleStore'
 import { BsFillSuitHeartFill } from 'react-icons/bs'
+import { FaComment } from 'react-icons/fa'
+import PostDetail from '../components/PostDetail'
+import ModalBlackBg from '../components/ModalBlackBg'
 
 function MyPage() {
+
+  //재란님 오픈모달 세트////////////////////////
+  const [currentId, setCurrentId] = useState();
+  const [openModal, setOpenModal] = useState(false)
+  const PostWriteModalOpenHandler = id => {
+    setCurrentId(id);
+    setOpenModal(true);
+  };
+  ///////////////////////////////////////////
 
   const params = useParams();
   const { myPost } = useGetMypost(params.username);
@@ -26,15 +38,31 @@ function MyPage() {
             <NicknameDiv>게시물 {myPost?.postsCnt}개</NicknameDiv>
           </UI.FlexColumn>
         </UI.FlexRow>
-        <UI.FlexRow BgColor={`beige`} height={`fit-content`} justify={`space-between`}>
+        <UI.FlexRow BgColor={`beige`} height={`fit-content`} justify={`space-between`} wrap={'wrap'}>
           {myPost?.posts?.map((post) => {
             return (
-              <MyCard>
-                <BsFillSuitHeartFill />
-              </MyCard>
+              <div key={post.postId}>
+                <MyCard onClick={() => PostWriteModalOpenHandler(post.postId)}>
+                  <BsFillSuitHeartFill /> {post.likeCnt}
+                  <FaComment />{post.commentCnt}
+                </MyCard>
+              </div>
             )
 
           })}
+
+          {/* 재란님 오픈모달 가져옴!!////////////////////// */}
+          {openModal && (
+            <PostDetail
+              id={currentId}
+              setOpenModal={setOpenModal}
+            // setReviseOpenModal={setReviseOpenModal}
+            />
+          )}
+          {/* 모달 열림과 동시에 어두운 백그라운드 넣어주고 어두운 부분 클릭시 모달 닫힘 */}
+          {openModal && <ModalBlackBg setOpenModal={setOpenModal} />}
+          {/* /////////////////////////////////////////// */}
+
 
         </UI.FlexRow>
       </UI.FlexColumn>
@@ -50,7 +78,10 @@ const MyCard = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+  margin-top: 5px;
+  &:hover {
+    background-color: #005b00;
+  }
 `
 
 const NicknameDiv = styled.div`

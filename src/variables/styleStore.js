@@ -8,6 +8,7 @@ export const FlexRow = styled.div`
   flex-direction: row;
   justify-content: ${({ justify }) => justify ? justify : 'center'};
   align-items: ${({ align }) => align ? align : 'center'};
+  flex-wrap: ${({ wrap }) => wrap ? wrap : null};
 
   background-color: ${({ BgColor }) => BgColor ? BgColor : 'none'};
 
