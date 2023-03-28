@@ -9,9 +9,6 @@ function Navigation({ openModal, setOpenModal }) {
   const { username } = useGetUsername()
   const navigate = useNavigate()
 
-  console.log('username========', username);
-  console.log('========', useGetUsername());
-
   //모달 open 관리
 
   const PostWriteModalOpenHandler = () => {

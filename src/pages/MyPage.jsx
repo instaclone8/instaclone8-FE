@@ -22,9 +22,6 @@ function MyPage() {
   const params = useParams();
   const { myPost } = useGetMypost(params.username);
 
-  console.log(`params=====`, params.username);
-  console.log('================', myPost?.posts);
-
   return (
     <Wrapper flex={'row'} align={`flex-start`}>
       <NavTest />

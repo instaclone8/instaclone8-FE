@@ -7,7 +7,6 @@ import Button from '../components/common/Button'
 import Input from '../components/common/Input'
 import Kakao from '../components/login,signup/Kakao'
 import useLogin from '../api/hooks/useLogin'
-import * as UI from '../variables/styleStore'
 
 
 function Login() {
