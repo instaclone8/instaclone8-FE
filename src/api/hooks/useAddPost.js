@@ -1,25 +1,27 @@
-// import { keys } from "@/utils/createQueryKey";
-// import { useMutation, useQueryClient } from "@tanstack/react-query";
-// import axios from "axios";
+import { keys } from "../utils/createQueryKey";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { apis_token } from "../../axios/api";
 
-// export const useAddPost = () => {
-//   const queryClient = useQueryClient();
+export const useAddPost = payload => {
+  const queryClient = useQueryClient();
 
-//   const { mutate, isLoading, isSuccess } = useMutation({
-//     mutationFn: async payload => {
-//       const { data } = await axios.post(
-//         `api_token/posts/${payload.id}`,
-//         payload
-//       );
-//       return data;
-//     },
-//     onSuccess: () => {
-//       queryClient.invalidateQueries({ queryKey: keys.GET_POSTS }); // GET 요청을 다시함
-//     },
-//   });
+  const { mutate, isLoading, isSuccess } = useMutation({
+    mutationFn: async payload => {
+      //   console.log(formData, "payload");
+      const { data } = await apis_token.post(
+        "api/posts/",
+        payload
+        //   {headers: {"Content-Type": "multipart/form-data",}}
+      );
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: keys.GET_POSTS });
+    },
+  });
 
-//   return {
-//     addPost: mutate,
-//     addPostIsLoading: isLoading,
-//   };
-// };
+  return {
+    addPost: mutate,
+    addPostIsLoading: isLoading,
+  };
+};

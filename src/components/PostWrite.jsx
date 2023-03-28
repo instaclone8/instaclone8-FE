@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useAddPost } from "./../api/hooks/useAddPost";
 
 function PostWrite({ setOpenModal }) {
   //모달 close 관리
@@ -7,33 +8,71 @@ function PostWrite({ setOpenModal }) {
     setOpenModal(false);
   };
 
-  const [img, setImg] = useState("");
-  const [content, setContent] = useState("");
+  const [inputPost, setInputPost] = useState({
+    image: "",
+    content: "",
+  });
 
-  const postSubmitHandler = e => {
-    // e.preventDefault();
-    // const formdata = new FormData();
-    // formdata.append('img', img)
-    // formdata.append('content', content)
+  const changeInputHandler = event => {
+    const { value, name } = event.target;
+    setInputPost(pre => ({ ...pre, [name]: value }));
+  };
+
+  // const [image, setImg] = useState("");
+  // const [content, setContent] = useState("");
+
+  const { addPost, addPostIsLoading } = useAddPost();
+
+  // const changeImageHandler = e => {
+  //   setImg(e.target.files[0]);
+  //   // let fileReader = new FileReader();
+  //   // let img = e.target.files[0];
+  //   // fileReader.readAsDataURL(img);
+  //   // fileReader.onload = () => {
+  //   //   setImg(fileReader.result);
+  //   // };
+  // };
+
+  // const changeContentHandler = e => {
+  //   setContent(e.target.value);
+  // };
+
+  const inputSubmitHandler = e => {
+    e.preventDefault();
+    // const formData = new FormData();
+    // formData.append("image", image);
+    // formData.append("content", content);
+    // addPost(formData);
+    addPost(inputPost);
+    setOpenModal(false);
   };
 
   return (
-    <StWriteModal onSubmit={postSubmitHandler}>
+    <StWriteModal>
       <Head>
         <button onClick={PostWriteModalCloseHandler}>뒤로가기</button>
         <div>새 게시물 만들기</div>
-        <button>게시하기</button>
+        <button onClick={inputSubmitHandler}>게시하기</button>
       </Head>
       <InputWrap>
         <InputImage>
-          <input type="file" name="img" accept="image/*" />
+          <input
+            type="file"
+            name="image"
+            accept="image/*"
+            onChange={changeInputHandler}
+          />
         </InputImage>
         <InputContentWrap>
           <UserProfile>
             <UserPhoto>프로필사진</UserPhoto>
             <div>닉네임</div>
           </UserProfile>
-          <InputContent type="text" name="content" />
+          <InputContent
+            type="text"
+            name="content"
+            onChange={changeInputHandler}
+          />
         </InputContentWrap>
       </InputWrap>
     </StWriteModal>

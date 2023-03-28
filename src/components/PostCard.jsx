@@ -7,15 +7,15 @@ import { useGetPostOne } from "../api/hooks/useGetPostOne";
 
 function PostCard({ setReviseOpenModal }) {
   const { posts } = useGetPosts();
-  console.log(posts, "PostCard");
+
+  //상세 모달로 id를 넘겨주기 위한 state
+  const [currentId, setCurrentId] = useState();
 
   //모달 open 관리
   const [openModal, setOpenModal] = useState(false);
   const PostWriteModalOpenHandler = id => {
-    const { postOne } = useGetPostOne(id);
-    postOne(id);
-    // setOpenModal(true);
-    console.log(id);
+    setCurrentId(id);
+    setOpenModal(true);
   };
 
   return (
@@ -45,10 +45,9 @@ function PostCard({ setReviseOpenModal }) {
         </StPostComponent>
       ))}
 
-      {/* PostWrite 컴포넌트에 post.id 넘겨줄 것 */}
       {openModal && (
         <PostDetail
-          // id={post.postId}
+          id={currentId}
           setOpenModal={setOpenModal}
           setReviseOpenModal={setReviseOpenModal}
         />

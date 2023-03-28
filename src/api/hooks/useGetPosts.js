@@ -7,7 +7,7 @@ export const useGetPosts = () => {
     queryKey: keys.GET_POSTS, //posts get요청 key
     queryFn: async () => {
       const data = await apis_token.get("/api/posts");
-      console.log(data, "posts");
+      //   console.log(data, "posts");
       return data.data;
     },
   });

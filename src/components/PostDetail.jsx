@@ -1,60 +1,124 @@
 import { useQueryClient } from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useGetPostOne } from "../api/hooks/useGetPostOne";
-import { keys } from "../api/utils/createQueryKey";
+import { useUpdatePost } from "../api/hooks/useUpdatePost";
+import { useDeletePost } from "./../api/hooks/useDeletePost";
 
 function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
+  //수정하기 클릭시 isEditMode=true
+  const [isEditMode, setIsEditMode] = useState(false);
+
   //모달 close 관리
   const PostWriteModalCloseHandler = () => {
     setOpenModal(false);
   };
 
+  //수정 모드
   const ClickGoUpdateModalHandler = () => {
-    setOpenModal(false);
-    setReviseOpenModal(true);
+    setIsEditMode(true);
   };
 
-  //쿼리클라이언트 - 유즈쿼리키
-  const queryClient = useQueryClient();
-  console.log(queryClient.getQueriesData(keys.GET_POST_ONE));
+  //게시글 상세조회
   const { postOne } = useGetPostOne(id);
 
+  //게시글 삭제
+  const { deletePost, status } = useDeletePost();
+  const ClickDeleteHandler = id => {
+    deletePost(id);
+    setOpenModal(false);
+  };
+
+  //게시글 수정
+  const { updatePost } = useUpdatePost();
+  const [editPost, setEditPost] = useState({
+    image: "",
+    content: "",
+  });
+
+  const changeInputHandler = event => {
+    const { value, name } = event.target;
+    setEditPost(pre => ({ ...pre, [name]: value }));
+  };
+
+  const inputSubmitHandler = e => {
+    e.preventDefault();
+    updatePost(editPost);
+    setOpenModal(false);
+  };
+
   return (
-    <StPostDetailModal>
-      <StDetail>
-        <Photo>{postOne.image}</Photo>
-        <StContentWrap>
-          <UserInfoWrap>
-            <UserInfo>
-              <UserPhoto>{postOne.userImage}</UserPhoto>
-              <div>{postOne.username}</div>
-            </UserInfo>
-            <div>
-              <CloseBtn onClick={PostWriteModalCloseHandler}>X</CloseBtn>
-            </div>
-          </UserInfoWrap>
-          <ContentBox>
-            <Content>{postOne.content}</Content>
-            <ContentBtn>
-              <button onClick={ClickGoUpdateModalHandler}>수정하기</button>
-              <button>삭제하기</button>
-            </ContentBtn>
-          </ContentBox>
-          <PostLike>
-            <div>좋아요</div>
-            <div>좋아요 {postOne.likeCnt}개</div>
-          </PostLike>
-          <CommentWrap>
-            <div>기존에 달려있던 댓글 가져오기</div>
-          </CommentWrap>
-          <CmtInputWrap>
-            <input type="text" placeholder="댓글 달기..." />
-            <button>게시</button>
-          </CmtInputWrap>
-        </StContentWrap>
-      </StDetail>
-    </StPostDetailModal>
+    <>
+      {isEditMode ? (
+        <StPostDetailModal w="1000" h="700" top="10" left="25">
+          <StDetail>
+            <Head>
+              <button onClick={PostWriteModalCloseHandler}>뒤로가기</button>
+              <div>게시물 수정하기</div>
+              <button onClick={inputSubmitHandler}>수정하기</button>
+            </Head>
+            <InputWrap>
+              <InputImage>
+                <input
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  onChange={changeInputHandler}
+                />
+              </InputImage>
+              <InputContentWrap>
+                <UserProfile>
+                  <UserPhoto>프로필사진</UserPhoto>
+                  <div>닉네임</div>
+                </UserProfile>
+                <InputContent
+                  type="text"
+                  name="content"
+                  onChange={changeInputHandler}
+                />
+              </InputContentWrap>
+            </InputWrap>
+          </StDetail>
+        </StPostDetailModal>
+      ) : (
+        <StPostDetailModal w="1400" h="800" top="7" left="15">
+          <StDetail display="flex">
+            <Photo>{postOne?.image}</Photo>
+            <StContentWrap>
+              <UserInfoWrap>
+                <UserInfo>
+                  <UserPhoto>{postOne?.userImage}</UserPhoto>
+                  <div>{postOne?.username}</div>
+                </UserInfo>
+                <div>
+                  <CloseBtn onClick={PostWriteModalCloseHandler}>X</CloseBtn>
+                </div>
+              </UserInfoWrap>
+              <ContentBox>
+                <Content>{postOne?.content}</Content>
+                <ContentBtn>
+                  <button onClick={ClickGoUpdateModalHandler}>수정하기</button>
+                  <button onClick={() => ClickDeleteHandler(postOne?.postId)}>
+                    삭제하기
+                  </button>
+                </ContentBtn>
+              </ContentBox>
+              <PostLike>
+                <div>좋아요</div>
+                <div>좋아요 {postOne?.likeCnt}개</div>
+              </PostLike>
+              <CommentWrap>
+                <div>기존에 달려있던 댓글 가져오기</div>
+              </CommentWrap>
+              <CmtInputWrap>
+                <input type="text" placeholder="댓글 달기..." />
+                <button>게시</button>
+              </CmtInputWrap>
+            </StContentWrap>
+          </StDetail>
+        </StPostDetailModal>
+      )}
+    </>
   );
 }
 
@@ -66,17 +130,18 @@ const StPostDetailModal = styled.div`
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 
-  width: 1400px;
-  height: 800px;
+  width: ${({ w }) => w}px;
+  height: ${({ h }) => h}px;
 
   position: fixed;
-  top: 7%;
-  left: 15%;
   z-index: 15;
+
+  top: ${({ top }) => top}%;
+  left: ${({ left }) => left}%;
 `;
 
 const StDetail = styled.div`
-  display: flex;
+  display: ${({ display }) => display};
   justify-content: space-between;
 `;
 
@@ -92,9 +157,6 @@ const Photo = styled.div`
 const StContentWrap = styled.div`
   width: 600px;
   height: 800px;
-
-  /* 영역 확인용 컬러 - 삭제예정 */
-  background-color: #e9dcbb57;
 `;
 
 const UserInfoWrap = styled.div`
@@ -163,4 +225,45 @@ const CmtInputWrap = styled.div`
   margin-top: 10px;
   padding: 10px;
   display: flex;
+`;
+
+/* edit mode css */
+const Head = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid #d4d0d0;
+`;
+
+const InputWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+`;
+
+const UserProfile = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: bold;
+`;
+
+const InputImage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 550px;
+  height: 100%;
+`;
+const InputContentWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const InputContent = styled.input`
+  display: flex;
+  height: 550px;
+  width: 400px;
 `;
