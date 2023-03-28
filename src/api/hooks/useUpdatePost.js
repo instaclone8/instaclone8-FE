@@ -1,18 +1,18 @@
-// import { keys } from "@/utils/createQueryKey";
-// import { useMutation, useQueryClient } from "@tanstack/react-query";
-// import axios from "axios";
+import { keys } from "../utils/createQueryKey";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { apis_token } from "../../axios/api";
 
-// export const useUpdatePost = () => {
-//   const queryClient = useQueryClient();
+export const useUpdatePost = () => {
+  const queryClient = useQueryClient();
 
-//   const { mutate: updatePost } = useMutation({
-//     mutationFn: async ({ id, newPost }) => {
-//       await axios.patch(`api_token/posts`, newPost);
-//     },
-//     onSuccess: () => {
-//       queryClient.invalidateQueries(keys.GET_POSTS);
-//     },
-//   });
+  const { mutate: updatePost } = useMutation({
+    mutationFn: async ({ id, newPost }) => {
+      await apis_token.patch(`api/posts/${id}`, newPost);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(keys.GET_POSTS);
+    },
+  });
 
-//   return { useUpdatePost };
-// };
+  return { useUpdatePost };
+};
