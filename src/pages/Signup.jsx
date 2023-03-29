@@ -118,35 +118,14 @@ function Signup() {
           <UI.FlexColumn align={`flex-start`}>
 
             {/* 닉네임인풋, 닉네임 중복확인버튼 */}
-            <UI.FlexRow justify={'space-between'} gap={'30px'}>
-              <Input
-                max={8}
-                width={'275px'}
-                value={user}
-                onChange={userOnChange}
-              >
-                닉네임
-              </Input>
-              <Button
-                type='button'
-                size={'check'}
-                btnColor={'rgb(113, 194, 244)'}
-                color={'white'}
-                onClick={() => checkUser(checkedUser, {
-                  onSuccess: () => {
-                    setType(true)
-                    setCheckUserMessage('사용가능한 닉네임 입니다.')
-                    setOpenUsernameModal(true)
-                  },
-                  onError: () => {
-                    setType(false)
-                    setCheckUserMessage('사용불가')
-                    setOpenUsernameModal(true)
-                  }
-                })}>
-                중복 확인
-              </Button>
-            </UI.FlexRow>
+            <Input
+              max={8}
+              width={'100%'}
+              value={user}
+              onChange={userOnChange}
+            >
+              닉네임
+            </Input>
 
             <UI.Warning>8자 안으로 입력해주세요</UI.Warning>
           </UI.FlexColumn>
@@ -155,7 +134,7 @@ function Signup() {
 
         {/* 회원가입, 카카오 회원가입 버튼 */}
         <Button type={'button'} size={'medium'} btnColor={'rgb(113, 194, 244)'} color={'white'} onClick={() => {
-          (emailValidation && usernameValidation) ? signup(newUser) : alert('중복확인을 진행해주세요');
+          emailValidation ? signup(newUser) : alert('중복확인을 진행해주세요');
         }}>회원가입</Button>
         <Line>또는</Line>
         <Kakao> KakaoTalk 로 회원가입</Kakao>

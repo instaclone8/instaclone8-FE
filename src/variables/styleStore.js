@@ -31,6 +31,7 @@ export const FlexColumn = styled.div`
   overflow: ${({ overflow }) => overflow ? overflow : null};
 
   margin: ${({ margin }) => margin ? margin : null};
+  position : ${({ position }) => position ? position : `none`};
 
   background-color: ${({ BgColor }) => BgColor ? BgColor : 'none'};
 

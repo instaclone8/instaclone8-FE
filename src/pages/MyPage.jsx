@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { useGetMypost } from '../api/hooks/useGetMypost'
 import Wrapper from '../components/common/Wrapper'
-import NavTest from '../components/NavTest'
 import * as UI from '../variables/styleStore'
 import PostDetail from '../components/PostDetail'
 import ModalBlackBg from '../components/ModalBlackBg'
 import MyCard from '../components/MyCard'
+import Navigation from '../components/Navigation'
 
 function MyPage() {
 
@@ -23,11 +23,11 @@ function MyPage() {
   const { myPost } = useGetMypost(params.username);
 
   return (
-    <Wrapper flex={'row'} align={`flex-start`} overflow={'scroll'}>
+    <Wrapper align={`flex-start`} justify={`none`} width={`100vw`}>
 
-      <NavTest />
-      <UI.FlexColumn width={`860px`} margin={`0 0 50px 0`}>
-        <UI.FlexRow BgColor={`white`} justify={`flex-start`} others={`margin : 50px 0 50px`}>
+      <Navigation />
+      <Div>
+        <UI.FlexRow justify={`flex-start`} others={`margin : 50px 0 50px`}>
           <ProfileImg />
           <UI.FlexColumn width={'fit-content'} gap={`20px`} justify={`flex-start`} align={`flex-start`}>
             <NicknameDiv>{myPost?.username}</NicknameDiv>
@@ -35,7 +35,7 @@ function MyPage() {
           </UI.FlexColumn>
         </UI.FlexRow >
         <DivisionLine />
-        <UI.FlexRow height={`fit-content`} justify={`flex-start`} wrap={'wrap'} overflow={'scroll'}>
+        <UI.FlexRow height={`fit-content`} justify={`flex-start`} wrap={'wrap'}>
           {myPost?.posts?.map((post) => {
             return (
               <div key={post.postId}>
@@ -43,25 +43,28 @@ function MyPage() {
               </div>
             )
           })}
-
-          {/* 재란님 오픈모달 가져옴!!////////////////////// */}
-          {openModal && (
-            <PostDetail
-              id={currentId}
-              setOpenModal={setOpenModal}
-            // setReviseOpenModal={setReviseOpenModal}
-            />
-          )}
-          {/* 모달 열림과 동시에 어두운 백그라운드 넣어주고 어두운 부분 클릭시 모달 닫힘 */}
-          {openModal && <ModalBlackBg setOpenModal={setOpenModal} />}
-          {/* /////////////////////////////////////////// */}
-
-
         </UI.FlexRow>
-      </UI.FlexColumn>
+      </Div>
+      {/* 재란님 오픈모달 가져옴!!////////////////////// */}
+      {openModal && (
+        <PostDetail
+          id={currentId}
+          setOpenModal={setOpenModal}
+        // setReviseOpenModal={setReviseOpenModal}
+        />
+      )}
+      {/* 모달 열림과 동시에 어두운 백그라운드 넣어주고 어두운 부분 클릭시 모달 닫힘 */}
+      {openModal && <ModalBlackBg setOpenModal={setOpenModal} />}
+      {/* /////////////////////////////////////////// */}
     </Wrapper>
   )
 }
+
+const Div = styled.div`
+  width: 860px;
+  height: fit-content;
+  transform: translate(70%);
+`
 
 const DivisionLine = styled.div`
   border: 1px solid #c7c7c760;
