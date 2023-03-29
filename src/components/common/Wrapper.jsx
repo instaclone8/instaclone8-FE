@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 function Wrapper({ children, ...rest }) {
@@ -12,10 +12,10 @@ const StWrapper = styled.div`
   align-items: ${({ align }) => align ? align : 'center'};;
   width: 100vw;
   min-width: 900px;
-  height: 100vh;
+  /* height: 100vh; */
   margin: auto;
   gap: 10px;
-  overflow: ${({ overflow }) => overflow ? overflow : `scroll`};
+  /* overflow: ${({ overflow }) => overflow ? overflow : `scroll`}; */
   // 고정 테스트
   position: relative;
   right: 0;

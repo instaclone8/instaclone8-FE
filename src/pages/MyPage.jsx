@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useGetMypost } from "../api/hooks/useGetMypost";
@@ -21,6 +21,31 @@ function MyPage() {
 
   const params = useParams();
   const { myPost } = useGetMypost(params.username);
+
+  ////////무한스크롤 테스트 //////////////////////////////////////////////////
+
+
+
+  const [position, setPosition] = useState(0);
+  const onScroll = () => {
+    console.log("스크롤위치", window.scrollY);
+    console.log("화면하이트", window.innerHeight);
+    console.log('전체높이', document.body.offsetHeight);
+    setPosition(window.scrollY)
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+      console.log('끝도착')
+    }
+  }
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+    }
+  }, [])
+
+
+  ///////////////////////////////////////////////////////////////////
+
 
   return (
     <Wrapper align={`flex-start`} justify={`none`}>
