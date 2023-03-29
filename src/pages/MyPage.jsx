@@ -8,7 +8,6 @@ import * as UI from '../variables/styleStore'
 import PostDetail from '../components/PostDetail'
 import ModalBlackBg from '../components/ModalBlackBg'
 import MyCard from '../components/MyCard'
-import Navigation from '../components/Navigation'
 
 function MyPage() {
 
