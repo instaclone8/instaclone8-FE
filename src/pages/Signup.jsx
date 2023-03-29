@@ -9,7 +9,6 @@ import Input from '../components/common/Input'
 import Kakao from '../components/login,signup/Kakao'
 import { useSignupUser } from '../api/hooks/useSignupUser'
 import useCheckEmail from '../api/hooks/useCheckEmail'
-import useCheckUsername from '../api/hooks/useCheckUsername'
 import CheckModal from '../components/login,signup/CheckModal'
 
 function Signup() {
@@ -18,12 +17,9 @@ function Signup() {
   const [passwordCheck, passwordCheckOnChange] = useInput('')
   const [user, userOnChange, setUser] = useInput('')
   const [openEmailModal, setOpenEmailModal] = useState(false);
-  const [openUsernameModal, setOpenUsernameModal] = useState(false);
   const [type, setType] = useState(true);
   const [checkEmailMessage, setCheckEmailMessage] = useState('')
-  const [checkUserMessage, setCheckUserMessage] = useState('')
   const [emailValidation, setEmailValidation] = useState('')
-  const [usernameValidation, setUsernameValidation] = useState(false)
 
   // 회원가입시 서버에 보낼 정보
   const newUser = {
@@ -35,22 +31,15 @@ function Signup() {
   const checkedEmail = {
     email: email
   }
-  // 중복확인시 보낼 username 정보
-  const checkedUser = {
-    username: user
-  }
 
   const { signup } = useSignupUser();
   const { checkEmail } = useCheckEmail();
-  const { checkUser } = useCheckUsername();
 
   return (
-    <Wrapper width={'100vw'}>
+    <Wrapper>
 
       {/* 이메일 중복 확인 시 모달 */}
       <CheckModal openModal={openEmailModal} setOpenModal={setOpenEmailModal} setValue={setEmail} type={type} setValidation={setEmailValidation}>{checkEmailMessage}</CheckModal>
-
-      <CheckModal openModal={openUsernameModal} setOpenModal={setOpenUsernameModal} setValue={setUser} type={type} setValidation={setUsernameValidation}>{checkUserMessage}</CheckModal>
 
       <LoginBox login={false} logoMargin={'0'}>
         <UI.FlexColumn width={`80%`} gap={'15px'}>

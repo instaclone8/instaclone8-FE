@@ -11,6 +11,7 @@ import Navigation from "../components/Navigation";
 
 function MyPage() {
   //재란님 오픈모달 세트////////////////////////
+  const [openReviseModal, setReviseOpenModal] = useState(false);
   const [currentId, setCurrentId] = useState();
   const [openModal, setOpenModal] = useState(false);
   const PostWriteModalOpenHandler = id => {
@@ -22,8 +23,8 @@ function MyPage() {
   const { myPost } = useGetMypost(params.username);
 
   return (
-    <Wrapper align={`flex-start`} justify={`none`} width={`100vw`}>
-      <Navigation />
+    <Wrapper align={`flex-start`} justify={`none`}>
+      <Navigation openModal={openReviseModal} setOpenModal={setReviseOpenModal} />
       <Div>
         <UI.FlexRow justify={`flex-start`} others={`margin : 50px 0 50px`}>
           <ProfileImg />

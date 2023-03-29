@@ -6,6 +6,8 @@ import PostWrite from "./PostWrite";
 import { useGetUsername } from "../api/hooks/useGetUsername";
 import { HiHome } from "react-icons/hi";
 import { CgAddR, CgProfile } from "react-icons/cg";
+import mainlogo from "../img/instagram-font.png";
+
 
 function Navigation({ openModal, setOpenModal }) {
   const { username } = useGetUsername();
@@ -21,7 +23,9 @@ function Navigation({ openModal, setOpenModal }) {
     <>
       <StHeader>
         <div>
-          <img src="img/instagram-font.png" alt="logo" width="150px" />
+          <img
+            src={mainlogo}
+            alt="logo" width="150px" />
         </div>
         <StLink to={"/main"}>
           <HiHome size="30" />홈

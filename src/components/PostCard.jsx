@@ -25,7 +25,6 @@ function PostCard({ setReviseOpenModal }) {
         <StPostComponent key={post.postId}>
           <PostProfile>
             <ProfilePhoto postUserImage={post.userImage} />
-            <ProfilePhoto postUserImage={post.userImage} />
             <ProfileName>{post.username}</ProfileName>
           </PostProfile>
           <PostPhoto src={post.image} alt={post.username} />
