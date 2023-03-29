@@ -5,7 +5,6 @@ function useCheckEmail() {
   const { mutate, error } = useMutation({
     mutationFn: async (email) => {
       const response = await apis.post('/api/user/checkemail', email)
-      console.log(response);
       return response
     },
   })

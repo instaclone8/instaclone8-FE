@@ -13,7 +13,7 @@ function LoginBox({ children, login, logoMargin }) {
             <Logo src='img/instagram-font.png' marginBottom={logoMargin}></Logo>
             {children}
           </TopBox>
-          <BottomBox>{login ? <UI.FlexRow gap={`10px`}><span>계정이 없으신가요?</span> <Link to={'/signup'}>가입하러 가기</Link></UI.FlexRow> : <UI.FlexRow gap={`10px`}><span>계정이 있으신가요?</span> <Link to={'/login'}>로그인하러 가기</Link></UI.FlexRow>}</BottomBox>
+          <BottomBox>{login ? <UI.FlexRow gap={`10px`}><span>계정이 없으신가요?</span> <Link to={'/signup'}>가입하러 가기</Link></UI.FlexRow> : <UI.FlexRow gap={`10px`}><span>계정이 있으신가요?</span> <Link to={'/'}>로그인하러 가기</Link></UI.FlexRow>}</BottomBox>
         </UI.FlexColumn>
       </UI.FlexRow>
     </>

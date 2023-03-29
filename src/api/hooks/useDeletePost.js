@@ -11,6 +11,7 @@ export const useDeletePost = id => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: keys.GET_POSTS });
+      queryClient.invalidateQueries({ queryKey: keys.GET_MYPOST });
     },
   });
 

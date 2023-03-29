@@ -9,6 +9,7 @@ function Navigation({ openModal, setOpenModal }) {
   const { username } = useGetUsername()
   const navigate = useNavigate()
 
+
   //모달 open 관리
 
   const PostWriteModalOpenHandler = () => {

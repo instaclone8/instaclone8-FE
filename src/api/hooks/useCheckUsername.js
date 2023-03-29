@@ -6,7 +6,6 @@ function useCheckUsername() {
   const { mutate } = useMutation({
     mutationFn: async (checkedUsername) => {
       const response = await apis.post("/api/user/checkusername", checkedUsername)
-      console.log(response);
       return response
     },
     onSuccess: () => {

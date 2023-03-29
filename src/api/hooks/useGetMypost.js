@@ -6,8 +6,7 @@ export const useGetMypost = (username) => {
   const { data } = useQuery({
     queryKey: keys.GET_MYPOST,
     queryFn: async () => {
-      const data = await apis_token.get(`api/user/mypage/${username}`);
-      console.log(data, "posts");
+      const data = await apis_token.get(`api/user/mypage`);
       return data.data;
     },
   });

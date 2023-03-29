@@ -7,12 +7,11 @@ export function useSignupUser() {
   const { mutate } = useMutation({
     mutationFn: async (payload) => {
       const { data } = await apis.post("/api/user/signup", payload)
-      console.log(data);
       return data
     },
     onSuccess: () => {
       alert('회원가입이 완료되었습니다.');
-      navigate('/login')
+      navigate('/')
     },
     onError: (error) => {
       alert(error.response.data.message)

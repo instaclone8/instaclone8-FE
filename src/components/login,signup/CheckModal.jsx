@@ -4,7 +4,6 @@ import styled from 'styled-components'
 
 function CheckModal({ children, openModal, setOpenModal, setValue, type, setValidation }) {
 
-  console.log(type);
 
   if (type === false) {
     return (

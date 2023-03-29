@@ -8,6 +8,7 @@ import * as UI from '../variables/styleStore'
 import PostDetail from '../components/PostDetail'
 import ModalBlackBg from '../components/ModalBlackBg'
 import MyCard from '../components/MyCard'
+import Navigation from '../components/Navigation'
 
 function MyPage() {
 
@@ -21,20 +22,21 @@ function MyPage() {
 
   const params = useParams();
   const { myPost } = useGetMypost(params.username);
-  console.log(myPost);
 
   return (
     <Wrapper flex={'row'} align={`flex-start`} overflow={'scroll'}>
+
       <NavTest />
-      <UI.FlexColumn width={`860px`}>
+      <UI.FlexColumn width={`860px`} margin={`0 0 50px 0`}>
         <UI.FlexRow BgColor={`white`} justify={`flex-start`} others={`margin : 50px 0 50px`}>
           <ProfileImg />
-          <UI.FlexColumn width={'fit-content'} gap={`20px`}>
+          <UI.FlexColumn width={'fit-content'} gap={`20px`} justify={`flex-start`} align={`flex-start`}>
             <NicknameDiv>{myPost?.username}</NicknameDiv>
             <NicknameDiv>게시물 {myPost?.postsCnt}개</NicknameDiv>
           </UI.FlexColumn>
         </UI.FlexRow >
-        <UI.FlexRow BgColor={`beige`} height={`fit-content`} justify={`flex-start`} wrap={'wrap'} overflow={'scroll'}>
+        <DivisionLine />
+        <UI.FlexRow height={`fit-content`} justify={`flex-start`} wrap={'wrap'} overflow={'scroll'}>
           {myPost?.posts?.map((post) => {
             return (
               <div key={post.postId}>
@@ -62,15 +64,23 @@ function MyPage() {
   )
 }
 
+const DivisionLine = styled.div`
+  border: 1px solid #c7c7c760;
+  width: 100%;
+  height: 0;
+  margin-bottom: 30px;
+`
+
 const NicknameDiv = styled.div`
-background-color: aqua;
   width: fit-content;
   height: fit-content;
-  font-size: 30px;
+  font-size: 25px;
 `
 
 const ProfileImg = styled.img`
-background-color: beige;
+  background-image: ${({ userImage }) => userImage ? `url(${userImage})` : `url(${process.env.PUBLIC_URL}/img/computerCat2.gif)`};
+  background-position: center;
+  background-size: cover;
   width: 150px;
   height: 150px;
   border: none;

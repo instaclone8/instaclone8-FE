@@ -25,7 +25,6 @@ function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
   //수정 모드 open
   const ClickGoUpdateModalHandler = () => {
     setIsEditMode(true);
-    // console.log(id, "update id");
   };
 
   //게시글 수정
@@ -34,9 +33,6 @@ function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
     image: postOne?.image,
     content: postOne?.content,
   });
-
-  console.log(postOne, "postOne");
-  console.log(editPost, "edit");
 
   const changeInputHandler = event => {
     const { value, name } = event.target;

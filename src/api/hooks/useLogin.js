@@ -10,7 +10,6 @@ function useLogin() {
   const { mutate } = useMutation({
     mutationFn: async (userInfo) => {
       const response = await apis.post("/api/user/login", userInfo);
-      console.log(response);
       const token = response.headers.authorization;
       cookies.set('token', token)
       return response

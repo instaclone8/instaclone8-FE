@@ -30,6 +30,8 @@ export const FlexColumn = styled.div`
   align-items: ${({ align }) => align ? align : 'center'};
   overflow: ${({ overflow }) => overflow ? overflow : null};
 
+  margin: ${({ margin }) => margin ? margin : null};
+
   background-color: ${({ BgColor }) => BgColor ? BgColor : 'none'};
 
   gap: ${({ gap }) => gap ? gap : null};

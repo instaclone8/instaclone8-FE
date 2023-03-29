@@ -14,7 +14,6 @@ function KakaoPage() {
   const { data, refetch } = useQuery(
     ['GET_COOKIE', kakaoCode],
     async () => {
-      console.log('kakaocode', kakaoCode);
       const response = await axios.get(`http://15.164.166.87:8080/api/user/kakao/callback?code=${kakaoCode}`)
       const token = response.headers.authorization;
       const cookies = new Cookies()
@@ -32,7 +31,6 @@ function KakaoPage() {
 
   useEffect(() => {
     if (kakaoCode) {
-      console.log('code 실행')
       refetch().then(() => navigate('/main'))
     }
   }, [kakaoCode, refetch, navigate])
