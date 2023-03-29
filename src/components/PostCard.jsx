@@ -25,6 +25,7 @@ function PostCard({ setReviseOpenModal }) {
         <StPostComponent key={post.postId}>
           <PostProfile>
             <ProfilePhoto postUserImage={post.userImage} />
+            <ProfilePhoto postUserImage={post.userImage} />
             <ProfileName>{post.username}</ProfileName>
           </PostProfile>
           <PostPhoto src={post.image} alt={post.username} />
@@ -64,7 +65,6 @@ function PostCard({ setReviseOpenModal }) {
 export default PostCard;
 
 const StPostComponent = styled.div`
-  /* background-color: #a2d1a2; */
   display: flex;
   flex-direction: column;
   width: 28%;
@@ -82,7 +82,10 @@ const PostProfile = styled.div`
 `;
 
 const ProfilePhoto = styled.div`
-  background-image: ${({ postUserImage }) => postUserImage ? `url(${postUserImage})` : `url(${process.env.PUBLIC_URL}/img/computerCat2.gif)`};
+  background-image: ${({ postUserImage }) =>
+    postUserImage
+      ? `url(${postUserImage})`
+      : `url(${process.env.PUBLIC_URL}/img/computerCat2.gif)`};
   background-position: center;
   background-size: cover;
   width: 50px;

@@ -17,15 +17,6 @@ export const useUpdatePost = ({ formData, id }) => {
         queryClient.invalidateQueries({ queryKey: keys.GET_POSTS });
       },
     }
-
-    //   {
-    //   mutationFn: async ({ id, editPost }) => {
-    //     await apis_token.patch(`api/posts/${id}`, editPost);
-    //   },
-    //   onSuccess: () => {
-    //     queryClient.invalidateQueries(keys.GET_POSTS);
-    //   },
-    // }
   );
 
   return { updatePost };
