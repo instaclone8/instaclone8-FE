@@ -24,7 +24,7 @@ function PostCard({ setReviseOpenModal }) {
       {posts?.map(post => (
         <StPostComponent key={post.postId}>
           <PostProfile>
-            <ProfilePhoto>{post.userImage}</ProfilePhoto>
+            <ProfilePhoto postUserImage={post.userImage} />
             <ProfileName>{post.username}</ProfileName>
           </PostProfile>
           <PostPhoto src={post.image} alt={post.username} />
@@ -64,7 +64,6 @@ function PostCard({ setReviseOpenModal }) {
 export default PostCard;
 
 const StPostComponent = styled.div`
-  /* background-color: #a2d1a2; */
   display: flex;
   flex-direction: column;
   width: 28%;
@@ -82,8 +81,12 @@ const PostProfile = styled.div`
 `;
 
 const ProfilePhoto = styled.div`
-  //사진 들어가면 border 없앨 예정
-  border: 1px solid gray;
+  background-image: ${({ postUserImage }) =>
+    postUserImage
+      ? `url(${postUserImage})`
+      : `url(${process.env.PUBLIC_URL}/img/computerCat2.gif)`};
+  background-position: center;
+  background-size: cover;
   width: 50px;
   height: 50px;
   border-radius: 50%;

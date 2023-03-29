@@ -7,8 +7,6 @@ const apis = axios.create({
   headers: {
     "Access-Control-Allow-Origin": "*",
   },
-  // timeout: 1,
-  // 오류 확인 가능한지 테스트.. 1밀리세컨드.. 내에 응답을 못받으면 에러처리 하도록 돼 있음.
 })
 
 export const apis_token = axios.create({
@@ -16,8 +14,6 @@ export const apis_token = axios.create({
   headers: {
     "Access-Control-Allow-Origin": "*",
   },
-  // timeout: 1,
-  // 오류 확인 가능한지 테스트.. 1밀리세컨드.. 내에 응답을 못받으면 에러처리 하도록 돼 있음.
 })
 
 apis_token.interceptors.request.use(

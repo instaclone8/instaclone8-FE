@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { useGetUsername } from "../api/hooks/useGetUsername";
 import { useAddPost } from "./../api/hooks/useAddPost";
+import * as UI from "../variables/styleStore";
 
 function PostWrite({ setOpenModal }) {
   //username 조회
@@ -19,6 +20,7 @@ function PostWrite({ setOpenModal }) {
 
   const { addPost, addPostIsLoading } = useAddPost();
 
+  //이미지 파일을 base64로 변환시켜주는 코드
   const changeImageHandler = e => {
     let fileReader = new FileReader();
     let inputImage = e.target.files[0];
@@ -33,6 +35,7 @@ function PostWrite({ setOpenModal }) {
     setContent(e.target.value);
   };
 
+  //파일 업로드를 위한 formData append
   const inputSubmitHandler = e => {
     e.preventDefault();
     const file = inputRef.current.files[0];
@@ -40,6 +43,9 @@ function PostWrite({ setOpenModal }) {
     formData.append("image", file);
     formData.append("content", content);
     addPost(formData);
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
+    }
     setOpenModal(false);
   };
 
@@ -51,15 +57,18 @@ function PostWrite({ setOpenModal }) {
         <button>게시하기</button>
       </Head>
       <InputWrap>
-        <InputImage>
-          <input
-            ref={inputRef}
-            type="file"
-            name="image"
-            accept="image/*"
-            onChange={changeImageHandler}
-          />
-        </InputImage>
+        <UI.FlexColumn>
+          <InputImage>
+            <input
+              ref={inputRef}
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={changeImageHandler}
+            />
+          </InputImage>
+          {image && <img src={image} alt="게시글 이미지" />}
+        </UI.FlexColumn>
         <InputContentWrap>
           <UserProfile>
             <UserPhoto>프로필사진</UserPhoto>
@@ -68,6 +77,7 @@ function PostWrite({ setOpenModal }) {
           <InputContent
             type="text"
             name="content"
+            placeholder="내용을 입력하세요."
             onChange={changeContentHandler}
           />
         </InputContentWrap>

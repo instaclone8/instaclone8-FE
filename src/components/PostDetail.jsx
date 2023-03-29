@@ -7,23 +7,17 @@ import { useUpdatePost } from "../api/hooks/useUpdatePost";
 import { useDeletePost } from "./../api/hooks/useDeletePost";
 
 function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
-  //게시글 상세조회, 유저 고유 id 조회
-  const { postOne } = useGetPostOne(id);
-  const { username } = useGetUsername();
-
-  // 미리보기 이미지 base64를 담는 state
-  const [img, setImg] = useState(null);
-
-  //이미지 null 관련
-  const inputRef = useRef(null);
-
-  //수정하기 클릭시 isEditMode=true
-  const [isEditMode, setIsEditMode] = useState(false);
-
   //모달 close 관리
   const PostWriteModalCloseHandler = () => {
     setOpenModal(false);
   };
+
+  //게시글 상세조회, 유저 고유 id 조회
+  const { postOne } = useGetPostOne(id);
+  const { username } = useGetUsername();
+
+  //수정하기 클릭시 isEditMode=true
+  const [isEditMode, setIsEditMode] = useState(false);
 
   //수정 모드 open
   const ClickGoUpdateModalHandler = () => {
@@ -42,6 +36,10 @@ function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
     setEditPost(pre => ({ ...pre, [name]: value }));
   };
 
+  //이미지 null 관련, 이미지 file 가리킴
+  const inputRef = useRef(null);
+  // 미리보기 이미지 base64를 담는 state
+  const [img, setImg] = useState(null);
   const imageHandler = e => {
     // 이미지 파일을 base64로 변환시켜주는 코드
     const fileReader = new FileReader();
@@ -49,13 +47,13 @@ function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
 
     fileReader.readAsDataURL(inputImage);
     fileReader.onloadend = () => {
-      setEditPost(pre => ({ ...pre, image: fileReader.result }));
+      setImg(pre => ({ ...pre, image: fileReader.result }));
     };
   };
 
+  //업데이트(수정할 때 formData에 이미지는 반영 X)
   const inputSubmitHandler = e => {
-    // e.preventDefault();
-    const file = inputRef.current.files[0];
+    const file = inputRef.current.files;
     const formData = new FormData();
     if (file) {
       formData.append("image", file);
@@ -72,7 +70,6 @@ function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
 
   //게시글 삭제
   const { deletePost, status } = useDeletePost();
-
   const ClickDeleteHandler = id => {
     deletePost(id);
     setOpenModal(false);
@@ -101,14 +98,12 @@ function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
             </Head>
             <InputWrap>
               <InputImage>
-                <input
+                <img
+                  src={editPost.image}
+                  alt="게시글 이미지"
                   ref={inputRef}
-                  type="file"
-                  name="image"
-                  accept="image/*"
                   onChange={imageHandler}
                 />
-                <img src={editPost.image} alt="게시글 이미지" />
               </InputImage>
               <InputContentWrap>
                 <UserProfile>
