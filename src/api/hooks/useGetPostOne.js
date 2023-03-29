@@ -3,13 +3,10 @@ import { keys } from "../utils/createQueryKey";
 import { apis_token } from "./../../axios/api";
 
 export const useGetPostOne = id => {
-  console.log(id, "postId");
-
   const { data, isLoading, refetch } = useQuery({
     queryKey: keys.GET_POST_ONE,
     queryFn: async () => {
       const data = await apis_token.get(`/api/posts/${id}`);
-      //   console.log(data, "detail.data");
       return data.data;
     },
   });

@@ -3,9 +3,10 @@ import styled from "styled-components";
 import PostDetail from "./PostDetail";
 import ModalBlackBg from "./ModalBlackBg";
 import { useGetPosts } from "./../api/hooks/useGetPosts";
-import { useGetPostOne } from "../api/hooks/useGetPostOne";
+import { IoMdHeartEmpty } from "react-icons/io";
 
 function PostCard({ setReviseOpenModal }) {
+  //게시글 전체조회
   const { posts } = useGetPosts();
 
   //상세 모달로 id를 넘겨주기 위한 state
@@ -28,7 +29,9 @@ function PostCard({ setReviseOpenModal }) {
           </PostProfile>
           <PostPhoto src={post.image} alt={post.username} />
           <PostLike>
-            <div>좋아요</div>
+            <div>
+              <IoMdHeartEmpty size="28" />
+            </div>
             <div>좋아요 {post.likeCnt}개</div>
           </PostLike>
           <PostContent>{post.content}</PostContent>
@@ -38,7 +41,7 @@ function PostCard({ setReviseOpenModal }) {
             {/* 상세페이지 모달 */}
             <div>
               <button onClick={() => PostWriteModalOpenHandler(post.postId)}>
-                댓글 작성
+                상세보기
               </button>
             </div>
           </PostCmt>
@@ -102,12 +105,14 @@ const PostPhoto = styled.img`
 `;
 const PostLike = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 15px;
   font-weight: bold;
 `;
 
 const PostContent = styled.div`
   padding: 30px 0px;
+  white-space: pre-line;
+  overflow: auto;
 `;
 const PostCmt = styled.div`
   display: flex;

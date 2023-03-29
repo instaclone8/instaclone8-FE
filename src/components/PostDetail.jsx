@@ -2,17 +2,20 @@ import { useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useGetPostOne } from "../api/hooks/useGetPostOne";
+import { useGetUsername } from "../api/hooks/useGetUsername";
 import { useUpdatePost } from "../api/hooks/useUpdatePost";
 import { useDeletePost } from "./../api/hooks/useDeletePost";
 
 function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
+  //게시글 상세조회, 유저 고유 id 조회
+  const { postOne } = useGetPostOne(id);
+  const { username } = useGetUsername();
+
   // 미리보기 이미지 base64를 담는 state
   const [img, setImg] = useState(null);
 
+  //이미지 null 관련
   const inputRef = useRef(null);
-
-  //게시글 상세조회
-  const { postOne } = useGetPostOne(id);
 
   //수정하기 클릭시 isEditMode=true
   const [isEditMode, setIsEditMode] = useState(false);
@@ -25,7 +28,6 @@ function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
   //수정 모드 open
   const ClickGoUpdateModalHandler = () => {
     setIsEditMode(true);
-    // console.log(id, "update id");
   };
 
   //게시글 수정
@@ -34,9 +36,6 @@ function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
     image: postOne?.image,
     content: postOne?.content,
   });
-
-  console.log(postOne, "postOne");
-  console.log(editPost, "edit");
 
   const changeInputHandler = event => {
     const { value, name } = event.target;
@@ -73,6 +72,7 @@ function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
 
   //게시글 삭제
   const { deletePost, status } = useDeletePost();
+
   const ClickDeleteHandler = id => {
     deletePost(id);
     setOpenModal(false);
@@ -139,14 +139,22 @@ function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
                   <CloseBtn onClick={PostWriteModalCloseHandler}>X</CloseBtn>
                 </div>
               </UserInfoWrap>
+
+              {/* ContentBox -> 상세조회에서 get 해올때 작성자 고유 id 받아서 id가 유저와 일치하는지 확인
+              일치하면 수정,삭제버튼 보여주고 아니면 null
+              isLoading 사용해야함 */}
               <ContentBox>
                 <Content>{postOne?.content}</Content>
-                <ContentBtn>
-                  <button onClick={ClickGoUpdateModalHandler}>수정하기</button>
-                  <button onClick={() => ClickDeleteHandler(postOne?.postId)}>
-                    삭제하기
-                  </button>
-                </ContentBtn>
+                {postOne?.userId === username?.userId ? (
+                  <ContentBtn>
+                    <button onClick={ClickGoUpdateModalHandler}>
+                      수정하기
+                    </button>
+                    <button onClick={() => ClickDeleteHandler(postOne?.postId)}>
+                      삭제하기
+                    </button>
+                  </ContentBtn>
+                ) : null}
               </ContentBox>
               <PostLike>
                 <div>좋아요</div>
@@ -245,6 +253,8 @@ const Content = styled.div`
   border: 1px solid gray;
 
   height: 250px;
+  white-space: pre-line;
+  overflow: auto;
 `;
 
 const ContentBtn = styled.div`
@@ -315,8 +325,9 @@ const InputContentWrap = styled.div`
   gap: 10px;
 `;
 
-const InputContent = styled.input`
+const InputContent = styled.textarea`
   display: flex;
   height: 550px;
   width: 400px;
+  white-space: pre-line;
 `;

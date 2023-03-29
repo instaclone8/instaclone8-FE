@@ -3,14 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ModalBlackBg from "./ModalBlackBg";
 import PostWrite from "./PostWrite";
-import { useGetUsername } from '../api/hooks/useGetUsername'
+import { useGetUsername } from "../api/hooks/useGetUsername";
+import { HiHome } from "react-icons/hi";
+import { CgAddR, CgProfile } from "react-icons/cg";
 
 function Navigation({ openModal, setOpenModal }) {
-  const { username } = useGetUsername()
-  const navigate = useNavigate()
+  const { username } = useGetUsername();
+  const navigate = useNavigate();
 
   //모달 open 관리
-
   const PostWriteModalOpenHandler = () => {
     setOpenModal(true);
   };
@@ -18,14 +19,23 @@ function Navigation({ openModal, setOpenModal }) {
   return (
     <>
       <StHeader>
-        <div>로고</div>
-        <Link to={"/main"}>홈</Link>
-
-        {/* 새 글 작성 모달 */}
         <div>
-          <button onClick={PostWriteModalOpenHandler}>만들기</button>
+          <img src="img/instagram-font.png" alt="logo" width="150px" />
         </div>
-        <div onClick={() => navigate(`/mypage/${username?.username}`)}>프로필</div>
+        <StLink to={"/main"}>
+          <HiHome size="30" />홈
+        </StLink>
+
+        {/* 새 글 작성 모달 여는 버튼 */}
+        <StAddDiv onClick={PostWriteModalOpenHandler}>
+          <CgAddR size="30" />
+          만들기
+        </StAddDiv>
+
+        <StProfileDiv onClick={() => navigate(`/mypage/${username?.username}`)}>
+          <CgProfile size="30" />
+          프로필
+        </StProfileDiv>
       </StHeader>
       {/* PostWrite 컴포넌트에 posts.id 넘겨줄 것 */}
       {openModal && <PostWrite setOpenModal={setOpenModal} />}
@@ -38,12 +48,42 @@ function Navigation({ openModal, setOpenModal }) {
 const StHeader = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 40px;
+  padding: 20px;
   border-right: 1px solid #cacaca98;
 
   position: fixed;
   width: 18%;
   height: 100vh;
+
+  font-size: 18px;
+
+  color: #000000df;
 `;
 
+const StLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-left: 10px;
+
+  color: inherit;
+  text-decoration: none;
+`;
+
+const StAddDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-left: 10px;
+  cursor: pointer;
+`;
+
+const StProfileDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-left: 10px;
+  cursor: pointer;
+`;
 export default Navigation;
