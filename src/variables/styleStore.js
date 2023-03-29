@@ -11,6 +11,7 @@ export const FlexRow = styled.div`
   flex-wrap: ${({ wrap }) => wrap ? wrap : null};
   font-size: ${({ fontSize }) => fontSize ? fontSize : ``};
   color: ${({ color }) => color ? color : ``};
+  margin: ${({ margin }) => margin ? margin : null};
   
   background-color: ${({ BgColor }) => BgColor ? BgColor : 'none'};
 

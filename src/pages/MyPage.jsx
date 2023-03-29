@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useGetMypost } from "../api/hooks/useGetMypost";
 import Wrapper from "../components/common/Wrapper";
@@ -8,6 +7,9 @@ import PostDetail from "../components/PostDetail";
 import ModalBlackBg from "../components/ModalBlackBg";
 import MyCard from "../components/MyCard";
 import Navigation from "../components/Navigation";
+import { useQuery } from '@tanstack/react-query';
+import apis from '../axios/api';
+import { keys } from '../api/utils/createQueryKey';
 
 function MyPage() {
   //재란님 오픈모달 세트////////////////////////
@@ -19,29 +21,75 @@ function MyPage() {
     setOpenModal(true);
   };
 
-  const params = useParams();
-  const { myPost } = useGetMypost(params.username);
+
+
+
+
 
   ////////무한스크롤 테스트 //////////////////////////////////////////////////
 
+  // const { myPost } = useGetMypost();
+  // const [requestNum, setRequestNum] = useState(0);
 
+  // const onScroll = () => {
+  //   // console.log("스크롤위치", window.scrollY);
+  //   // console.log("화면하이트", window.innerHeight);
+  //   // console.log('전체높이', document.body.offsetHeight);
+  //   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+  //     console.log('끝도착')
+  //     setRequestNum(prev => {
+  //       console.log("@@@@@@@@@@@@", (prev + 1));
+  //       myPost(prev)
+  //       return prev + 1;
+  //     });
+  //   }
+  // }
+  // useEffect(() => {
+  //   window.addEventListener('scroll', onScroll)
+  //   myPost(0)
+  //   return () => {
+  //     window.removeEventListener('scroll', onScroll)
+  //   }
+  // }, [])
 
-  const [position, setPosition] = useState(0);
+  const [num, setNum] = useState(0);
+  const [requestNum, setRequestNum] = useState();
+
+  const { data, refetch } = useQuery(
+    [keys.GET_MYPOST, num],
+    async () => {
+      const response = await apis.get(
+        `/api/user/mypage?page=${num}`
+      );
+      return response;
+    },
+    { enabled: false }
+  );
+
   const onScroll = () => {
-    console.log("스크롤위치", window.scrollY);
-    console.log("화면하이트", window.innerHeight);
-    console.log('전체높이', document.body.offsetHeight);
-    setPosition(window.scrollY)
+    // console.log("스크롤위치", window.scrollY);
+    // console.log("화면하이트", window.innerHeight);
+    // console.log('전체높이', document.body.offsetHeight);
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
       console.log('끝도착')
+      setNum(prev => {
+        console.log("@@@@@@@@@@@@", (prev + 1));
+        refetch(prev)
+        return prev + 1;
+      });
     }
   }
+
   useEffect(() => {
     window.addEventListener('scroll', onScroll)
+
+    refetch(0)
     return () => {
       window.removeEventListener('scroll', onScroll)
     }
-  }, [])
+  }, [num])
+
+  const myPost = [`a`, `b`, `c`]
 
 
   ///////////////////////////////////////////////////////////////////

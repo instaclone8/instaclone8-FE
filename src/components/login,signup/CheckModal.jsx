@@ -67,7 +67,6 @@ function CheckModal({
 }
 
 const InsideMessage = styled.div`
-  background-color: aqua;
   width: 100%;
   height: 70%;
   display: flex;
@@ -81,10 +80,11 @@ const InsideButtons = styled.div`
   height: 30%;
 `;
 const StButton = styled.button`
-  background-color: ${({ button }) => (button ? `green` : `red`)};
+  background-color: white;
+  color: ${({ button }) => (button ? `black` : `red`)};
   width: ${({ BtType }) => (BtType ? `50%` : `100%`)};
   height: 100%;
-  border: none;
+  border-radius: ${({ button }) => (button ? `0 0 10px 0` : `0 0 0 10px`)};
   cursor: pointer;
 `;
 
@@ -109,6 +109,7 @@ const ModalCheckBox = styled.div`
   height: 200px;
   position: fixed;
 
+  border: 1px solid black;
   border-radius: 10px;
   overflow: hidden;
   left: 50%;

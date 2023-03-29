@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
+import apis from '../axios/api';
 import Wrapper from "../components/common/Wrapper";
 
 function KakaoPage() {
@@ -13,8 +14,8 @@ function KakaoPage() {
   const { data, refetch } = useQuery(
     ["GET_COOKIE", kakaoCode],
     async () => {
-      const response = await axios.get(
-        `http://15.164.166.87:8080/api/user/kakao/callback?code=${kakaoCode}`
+      const response = await apis.get(
+        `/api/user/kakao/callback?code=${kakaoCode}`
       );
       const token = response.headers.authorization;
       const cookies = new Cookies();
@@ -46,7 +47,7 @@ function KakaoPage() {
   // })
 
   return (
-    <Wrapper>
+    <Wrapper height={`100vh`}>
       <img
         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSwBaWDpA8UkXW71CnThivS3w6c2PxgyCWJw&usqp=CAU"
         alt="... 로딩중"

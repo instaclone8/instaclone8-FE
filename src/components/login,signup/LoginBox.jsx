@@ -6,7 +6,7 @@ import * as UI from '../../variables/styleStore'
 function LoginBox({ children, login, logoMargin }) {
   return (
     <>
-      <UI.FlexRow gap={`60px`}>
+      <UI.FlexRow gap={`60px`} margin={`80px 0 0 0`}>
         <UI.Img src='img/instagram-loginImg.png' />
         <UI.FlexColumn width={`fit-content`}>
           <TopBox>
