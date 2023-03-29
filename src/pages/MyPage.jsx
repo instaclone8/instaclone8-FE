@@ -3,16 +3,6 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useGetMypost } from "../api/hooks/useGetMypost";
 import Wrapper from "../components/common/Wrapper";
-import NavTest from "../components/NavTest";
-import * as UI from "../variables/styleStore";
-import PostDetail from "../components/PostDetail";
-import ModalBlackBg from "../components/ModalBlackBg";
-import MyCard from "../components/MyCard";
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import styled from "styled-components";
-import { useGetMypost } from "../api/hooks/useGetMypost";
-import Wrapper from "../components/common/Wrapper";
 import * as UI from "../variables/styleStore";
 import PostDetail from "../components/PostDetail";
 import ModalBlackBg from "../components/ModalBlackBg";
@@ -66,7 +56,7 @@ function MyPage() {
         <PostDetail
           id={currentId}
           setOpenModal={setOpenModal}
-          // setReviseOpenModal={setReviseOpenModal}
+        // setReviseOpenModal={setReviseOpenModal}
         />
       )}
       {/* 모달 열림과 동시에 어두운 백그라운드 넣어주고 어두운 부분 클릭시 모달 닫힘 */}
