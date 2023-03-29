@@ -1,21 +1,23 @@
-import { useMutation } from '@tanstack/react-query';
-import apis from '../../axios/api';
-
+import { useMutation } from "@tanstack/react-query";
+import apis from "../../axios/api";
 
 function useCheckUsername() {
   const { mutate } = useMutation({
-    mutationFn: async (checkedUsername) => {
-      const response = await apis.post("/api/user/checkusername", checkedUsername)
-      return response
+    mutationFn: async checkedUsername => {
+      const response = await apis.post(
+        "/api/user/checkusername",
+        checkedUsername
+      );
+      return response;
     },
     onSuccess: () => {
-      alert('사용 가능한 닉네임입니다.')
-    }
-  })
+      alert("사용 가능한 닉네임입니다.");
+    },
+  });
 
   return {
-    checkUser: mutate
-  }
+    checkUser: mutate,
+  };
 }
 
-export default useCheckUsername
+export default useCheckUsername;

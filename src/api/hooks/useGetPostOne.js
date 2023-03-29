@@ -3,7 +3,6 @@ import { keys } from "../utils/createQueryKey";
 import { apis_token } from "./../../axios/api";
 
 export const useGetPostOne = id => {
-
   const { data, isLoading, refetch } = useQuery({
     queryKey: keys.GET_POST_ONE,
     queryFn: async () => {

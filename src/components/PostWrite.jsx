@@ -1,8 +1,12 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
+import { useGetUsername } from "../api/hooks/useGetUsername";
 import { useAddPost } from "./../api/hooks/useAddPost";
 
 function PostWrite({ setOpenModal }) {
+  //username 조회
+  const { username } = useGetUsername();
+
   const inputRef = useRef(null);
 
   //모달 close 관리
@@ -59,7 +63,7 @@ function PostWrite({ setOpenModal }) {
         <InputContentWrap>
           <UserProfile>
             <UserPhoto>프로필사진</UserPhoto>
-            <div>닉네임</div>
+            <div>{username.username}</div>
           </UserProfile>
           <InputContent
             type="text"
@@ -129,8 +133,10 @@ const InputContentWrap = styled.div`
   gap: 10px;
 `;
 
-const InputContent = styled.input`
+const InputContent = styled.textarea`
   display: flex;
   height: 550px;
   width: 400px;
+  white-space: pre-line;
+  overflow: auto;
 `;
