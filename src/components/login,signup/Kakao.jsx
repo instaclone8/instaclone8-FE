@@ -14,7 +14,7 @@ function Kakao({ children }) {
   return (
     <FlexRow>
       <RiKakaoTalkFill style={{ color: 'rgb(250, 225, 0)', fontSize: `40px` }} />
-      <div onClick={kakaoLogin}>{children}</div>
+      <div onClick={kakaoLogin} style={{ cursor: `pointer` }}>{children}</div>
     </FlexRow>
   )
 }

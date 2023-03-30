@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useGetMypost } from "../api/hooks/useGetMypost";
 import Wrapper from "../components/common/Wrapper";
 import * as UI from "../variables/styleStore";
 import PostDetail from "../components/PostDetail";
@@ -8,7 +7,7 @@ import ModalBlackBg from "../components/ModalBlackBg";
 import MyCard from "../components/MyCard";
 import Navigation from "../components/Navigation";
 import { useQuery } from '@tanstack/react-query';
-import apis, { apis_token } from '../axios/api';
+import { apis_token } from '../axios/api';
 import { keys } from '../api/utils/createQueryKey';
 
 function MyPage() {
