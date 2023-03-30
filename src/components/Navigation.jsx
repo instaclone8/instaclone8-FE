@@ -8,6 +8,7 @@ import { HiHome } from "react-icons/hi";
 import { CgAddR, CgProfile } from "react-icons/cg";
 import mainlogo from "../img/instagram-font.png";
 
+
 function Navigation({ openModal, setOpenModal }) {
   const { username } = useGetUsername();
   const navigate = useNavigate();

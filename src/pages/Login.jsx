@@ -22,7 +22,7 @@ function Login() {
   const { login } = useLogin();
 
   return (
-    <Wrapper width={'100vw'}>
+    <Wrapper>
       <LoginBox login={true}>
         <Input max={25} value={email} onChange={emailChangeHandler} >이메일</Input>
         <Input type='password' max={15} value={password} onChange={passwordChangeHandler} >비밀번호</Input>
