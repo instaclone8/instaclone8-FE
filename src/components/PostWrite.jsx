@@ -3,11 +3,13 @@ import styled from "styled-components";
 import { useGetUsername } from "../api/hooks/useGetUsername";
 import { useAddPost } from "./../api/hooks/useAddPost";
 import * as UI from "../variables/styleStore";
+import { MdKeyboardBackspace } from "react-icons/md";
+import Button from "./common/Button";
 
 function PostWrite({ setOpenModal }) {
   //username 조회
   const { username } = useGetUsername();
-
+  console.log(username, "username");
   const inputRef = useRef(null);
 
   //모달 close 관리
@@ -52,9 +54,15 @@ function PostWrite({ setOpenModal }) {
   return (
     <StWriteModal onSubmit={inputSubmitHandler}>
       <Head>
-        <button onClick={PostWriteModalCloseHandler}>뒤로가기</button>
+        <MdKeyboardBackspace
+          size="30"
+          cursor="pointer"
+          onClick={PostWriteModalCloseHandler}
+        >
+          뒤로가기
+        </MdKeyboardBackspace>
         <div>새 게시물 만들기</div>
-        <button>게시하기</button>
+        <Button btnColor={"white"}>게시하기</Button>
       </Head>
       <InputWrap>
         <UI.FlexColumn>
@@ -67,11 +75,11 @@ function PostWrite({ setOpenModal }) {
               onChange={changeImageHandler}
             />
           </InputImage>
-          {image && <img src={image} alt="게시글 이미지" />}
+          {image && <ImgReview src={image} alt="게시글 이미지" />}
         </UI.FlexColumn>
         <InputContentWrap>
           <UserProfile>
-            <UserPhoto>프로필사진</UserPhoto>
+            <UserPhoto postUserImage={username?.userImage} />
             <div>{username.username}</div>
           </UserProfile>
           <InputContent
@@ -105,6 +113,7 @@ const Head = styled.div`
   justify-content: space-between;
   padding: 20px;
   border-bottom: 1px solid #d4d0d0;
+  font-weight: bold;
 `;
 
 const InputWrap = styled.div`
@@ -119,15 +128,21 @@ const UserProfile = styled.div`
   align-items: center;
   gap: 15px;
   font-weight: bold;
+  padding-top: 5px;
 `;
 
 const UserPhoto = styled.div`
-  //사진 들어가면 border 없앨 예정
-  border: 1px solid gray;
+  background-image: ${({ postUserImage }) =>
+    postUserImage
+      ? `url(${postUserImage})`
+      : `url(${process.env.PUBLIC_URL}/img/computerCat2.gif)`};
+  background-position: center;
+  background-size: cover;
+
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  margin-right: 15px;
+  margin-right: 5px;
 `;
 
 const InputImage = styled.div`
@@ -137,6 +152,11 @@ const InputImage = styled.div`
   width: 550px;
   height: 100%;
 `;
+
+const ImgReview = styled.img`
+  width: 550px;
+  height: 560px;
+`;
 const InputContentWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -145,8 +165,14 @@ const InputContentWrap = styled.div`
 
 const InputContent = styled.textarea`
   display: flex;
-  height: 550px;
+  height: 500px;
   width: 400px;
   white-space: pre-line;
   overflow: auto;
+  padding: 10px;
+  border: none;
+  border-top: 1px solid #d4d0d0;
+  border-bottom: 1px solid #d4d0d0;
+  outline: none;
+  font-size: 17px;
 `;

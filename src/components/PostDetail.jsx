@@ -5,11 +5,20 @@ import { useGetPostOne } from "../api/hooks/useGetPostOne";
 import { useGetUsername } from "../api/hooks/useGetUsername";
 import { useUpdatePost } from "../api/hooks/useUpdatePost";
 import { useDeletePost } from "./../api/hooks/useDeletePost";
+import { VscChromeClose } from "react-icons/vsc";
+import Button from "./common/Button";
+import { IoMdHeartEmpty } from "react-icons/io";
+import { MdKeyboardBackspace } from "react-icons/md";
+import { VscSmiley } from "react-icons/vsc";
 
 function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
-  //모달 close 관리
+  //모달 close 관리 - 상세보기 모달 닫기
   const PostWriteModalCloseHandler = () => {
     setOpenModal(false);
+  };
+  //모달 close 관리 - 수정하는 모달에서 상세보기 모달로 돌아가기
+  const PostEditModalCloseHandler = () => {
+    setIsEditMode(false);
   };
 
   //게시글 상세조회, 유저 고유 id 조회
@@ -90,11 +99,19 @@ function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
         >
           <StDetail>
             <Head>
-              <button onClick={PostWriteModalCloseHandler}>뒤로가기</button>
+              {/* 뒤로가기 버튼 */}
+              <MdKeyboardBackspace
+                size="30"
+                cursor="pointer"
+                onClick={PostEditModalCloseHandler}
+              ></MdKeyboardBackspace>
               <div>게시물 수정하기</div>
-              <button onClick={() => inputSubmitHandler(postOne?.postId)}>
+              <Button
+                btnColor={"white"}
+                onClick={() => inputSubmitHandler(postOne?.postId)}
+              >
                 수정하기
-              </button>
+              </Button>
             </Head>
             <InputWrap>
               <InputImage>
@@ -107,7 +124,7 @@ function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
               </InputImage>
               <InputContentWrap>
                 <UserProfile>
-                  <UserPhoto>{postOne?.userImage}</UserPhoto>
+                  <UserPhoto postUserImage={postOne?.userImage} />
                   <div>{postOne?.username}</div>
                 </UserProfile>
                 <InputContent
@@ -121,46 +138,67 @@ function PostDetail({ setOpenModal, setReviseOpenModal, id }) {
           </StDetail>
         </StPostDetailModal>
       ) : (
-        <StPostDetailModal w="1400" h="800" top="7" left="15" btr="10" bbr="10">
+        <StPostDetailModal
+          w="1300"
+          h="700"
+          top="12"
+          left="18"
+          btr="10"
+          bbr="10"
+        >
           <StDetail display="flex">
             <Photo src={postOne?.image} alt={postOne?.content} />
             <StContentWrap>
               <UserInfoWrap>
                 <UserInfo>
-                  <UserPhoto>{postOne?.userImage}</UserPhoto>
+                  <UserPhoto postUserImage={postOne?.userImage} />
                   <div>{postOne?.username}</div>
                 </UserInfo>
                 <div>
-                  <CloseBtn onClick={PostWriteModalCloseHandler}>X</CloseBtn>
+                  {/* 닫기 버튼 */}
+                  <VscChromeClose
+                    onClick={PostWriteModalCloseHandler}
+                    size="25"
+                    cursor="pointer"
+                  >
+                    X
+                  </VscChromeClose>
                 </div>
               </UserInfoWrap>
 
               {/* ContentBox -> 상세조회에서 get 해올때 작성자 고유 id 받아서 id가 유저와 일치하는지 확인
-              일치하면 수정,삭제버튼 보여주고 아니면 null
-              isLoading 사용해야함 */}
+              일치하면 수정,삭제버튼 보여주고 아니면 null*/}
               <ContentBox>
                 <Content>{postOne?.content}</Content>
                 {postOne?.userId === username?.userId ? (
                   <ContentBtn>
-                    <button onClick={ClickGoUpdateModalHandler}>
+                    <Button
+                      onClick={ClickGoUpdateModalHandler}
+                      btnColor={"white"}
+                    >
                       수정하기
-                    </button>
-                    <button onClick={() => ClickDeleteHandler(postOne?.postId)}>
+                    </Button>
+                    <Button
+                      onClick={() => ClickDeleteHandler(postOne?.postId)}
+                      btnColor={"white"}
+                    >
                       삭제하기
-                    </button>
+                    </Button>
                   </ContentBtn>
                 ) : null}
+                {/* 댓글 기능 구현하려던 부분 */}
+                {/* <CommentWrap>
+                  <div></div>
+                </CommentWrap> */}
               </ContentBox>
               <PostLike>
-                <div>좋아요</div>
+                <IoMdHeartEmpty size="28" />
                 <div>좋아요 {postOne?.likeCnt}개</div>
               </PostLike>
-              <CommentWrap>
-                <div>기존에 달려있던 댓글 가져오기</div>
-              </CommentWrap>
               <CmtInputWrap>
-                <input type="text" placeholder="댓글 달기..." />
-                <button>게시</button>
+                <VscSmiley size="30" color="gray" />
+                <CmtInput type="text" placeholder="댓글 달기..." />
+                <Button btnColor={"white"}>게시</Button>
               </CmtInputWrap>
             </StContentWrap>
           </StDetail>
@@ -199,13 +237,13 @@ const Photo = styled.img`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 800px;
-  height: 800px;
-  border: 1px solid gray;
+  width: 740px;
+  height: 700px;
+  border-right: 1px solid #d4d0d0;
 `;
 
 const StContentWrap = styled.div`
-  width: 600px;
+  width: 560px;
   height: 800px;
 `;
 
@@ -226,65 +264,77 @@ const UserInfo = styled.div`
 `;
 
 const UserPhoto = styled.div`
-  //사진 들어가면 border 없앨 예정
-  border: 1px solid gray;
+  background-image: ${({ postUserImage }) =>
+    postUserImage
+      ? `url(${postUserImage})`
+      : `url(${process.env.PUBLIC_URL}/img/computerCat2.gif)`};
+  background-position: center;
+  background-size: cover;
+
   width: 50px;
   height: 50px;
   border-radius: 50%;
   margin-right: 15px;
 `;
 
-const CloseBtn = styled.button``;
-
 const ContentBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 10px;
 `;
 
 const Content = styled.div`
-  /* 영역 확인용 경계선 - 삭제 예정 */
-  border: 1px solid gray;
-
-  height: 250px;
+  height: 400px;
   white-space: pre-line;
   overflow: auto;
+  border-bottom: 1px solid #d4d0d0;
+  padding: 15px;
 `;
 
 const ContentBtn = styled.div`
   display: flex;
   justify-content: flex-end;
-  gap: 20px;
+  gap: 15px;
+  padding-right: 15px;
 `;
 
 const PostLike = styled.div`
   display: flex;
+  flex-direction: column;
   gap: 20px;
   font-weight: bold;
   padding: 10px;
+  font-size: 15px;
 `;
 
-const CommentWrap = styled.div`
-  /* 영역 확인용 경계선 - 삭제 예정 */
-  border: 1px solid gray;
-  height: 300px;
-  padding: 10px;
-`;
+// const CommentWrap = styled.div`
+//   height: 10px;
+//   padding: 10px;
+// `;
 
 const CmtInputWrap = styled.div`
   border-top: 1px solid #d4d0d0;
   margin-top: 10px;
   padding: 10px;
   display: flex;
+  align-items: center;
+  gap: 10px;
 `;
 
+const CmtInput = styled.input`
+  border: none;
+  outline: none;
+  width: 430px;
+  height: 40px;
+  font-size: 15px;
+`;
 /* edit mode css */
 const Head = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 20px;
   border-bottom: 1px solid #d4d0d0;
+  font-weight: bold;
 `;
 
 const InputWrap = styled.div`
@@ -322,7 +372,13 @@ const InputContentWrap = styled.div`
 
 const InputContent = styled.textarea`
   display: flex;
-  height: 550px;
+  height: 500px;
   width: 400px;
   white-space: pre-line;
+  overflow: auto;
+  padding: 10px;
+  border: none;
+  border-top: 1px solid #d4d0d0;
+  border-bottom: 1px solid #d4d0d0;
+  font-size: 17px;
 `;

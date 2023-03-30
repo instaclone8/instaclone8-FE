@@ -3,16 +3,6 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useGetMypost } from "../api/hooks/useGetMypost";
 import Wrapper from "../components/common/Wrapper";
-import NavTest from "../components/NavTest";
-import * as UI from "../variables/styleStore";
-import PostDetail from "../components/PostDetail";
-import ModalBlackBg from "../components/ModalBlackBg";
-import MyCard from "../components/MyCard";
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import styled from "styled-components";
-import { useGetMypost } from "../api/hooks/useGetMypost";
-import Wrapper from "../components/common/Wrapper";
 import * as UI from "../variables/styleStore";
 import PostDetail from "../components/PostDetail";
 import ModalBlackBg from "../components/ModalBlackBg";
@@ -21,6 +11,7 @@ import Navigation from "../components/Navigation";
 
 function MyPage() {
   //재란님 오픈모달 세트////////////////////////
+  const [openReviseModal, setReviseOpenModal] = useState(false);
   const [currentId, setCurrentId] = useState();
   const [openModal, setOpenModal] = useState(false);
   const PostWriteModalOpenHandler = id => {
@@ -33,7 +24,10 @@ function MyPage() {
 
   return (
     <Wrapper align={`flex-start`} justify={`none`} width={`100vw`}>
-      <Navigation />
+      <Navigation
+        openModal={openReviseModal}
+        setOpenModal={setReviseOpenModal}
+      />
       <Div>
         <UI.FlexRow justify={`flex-start`} others={`margin : 50px 0 50px`}>
           <ProfileImg />

@@ -4,6 +4,7 @@ import PostDetail from "./PostDetail";
 import ModalBlackBg from "./ModalBlackBg";
 import { useGetPosts } from "./../api/hooks/useGetPosts";
 import { IoMdHeartEmpty } from "react-icons/io";
+import Button from "./common/Button";
 
 function PostCard({ setReviseOpenModal }) {
   //게시글 전체조회
@@ -25,7 +26,6 @@ function PostCard({ setReviseOpenModal }) {
         <StPostComponent key={post.postId}>
           <PostProfile>
             <ProfilePhoto postUserImage={post.userImage} />
-            <ProfilePhoto postUserImage={post.userImage} />
             <ProfileName>{post.username}</ProfileName>
           </PostProfile>
           <PostPhoto src={post.image} alt={post.username} />
@@ -41,9 +41,12 @@ function PostCard({ setReviseOpenModal }) {
 
             {/* 상세페이지 모달 */}
             <div>
-              <button onClick={() => PostWriteModalOpenHandler(post.postId)}>
+              <Button
+                btnColor={"white"}
+                onClick={() => PostWriteModalOpenHandler(post.postId)}
+              >
                 상세보기
-              </button>
+              </Button>
             </div>
           </PostCmt>
         </StPostComponent>
@@ -101,8 +104,6 @@ const ProfileName = styled.div`
 `;
 
 const PostPhoto = styled.img`
-  //사진 들어가면 border 없앨 예정
-  border: 1px solid gray;
   border-radius: 5px;
   width: 100%;
   height: 500px;
