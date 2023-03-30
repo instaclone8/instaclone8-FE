@@ -5,7 +5,7 @@ import { apis_token } from "../../axios/api";
 export const useAddPost = formData => {
   const queryClient = useQueryClient();
 
-  const { mutate, isLoading, isSuccess } = useMutation(
+  const { mutate, isLoading } = useMutation(
     async formData => {
       const { data } = await apis_token.post("api/posts", formData, {
         headers: { "Content-Type": "multipart/form-data" },

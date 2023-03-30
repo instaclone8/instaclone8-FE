@@ -12,12 +12,9 @@ const StWrapper = styled.div`
   align-items: ${({ align }) => align ? align : 'center'};;
   width: 100vw;
   min-width: 900px;
-  /* height: 100vh; */
   height: ${({ height }) => height ? height : null};
   margin: auto;
   gap: 10px;
-  /* overflow: ${({ overflow }) => overflow ? overflow : `scroll`}; */
-  // 고정 테스트
   position: relative;
   right: 0;
 `;
