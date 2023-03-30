@@ -5,8 +5,10 @@ import ModalBlackBg from "./ModalBlackBg";
 import PostWrite from "./PostWrite";
 import { useGetUsername } from "../api/hooks/useGetUsername";
 import { HiHome } from "react-icons/hi";
+import { BiLogOut } from "react-icons/bi";
 import { CgAddR, CgProfile } from "react-icons/cg";
 import mainlogo from "../img/instagram-font.png";
+import Cookies from 'universal-cookie';
 
 
 function Navigation({ openModal, setOpenModal }) {
@@ -17,6 +19,14 @@ function Navigation({ openModal, setOpenModal }) {
   const PostWriteModalOpenHandler = () => {
     setOpenModal(true);
   };
+
+  const clickLogoutBtnHandler = () => {
+    if (window.confirm("로그아웃하시겠습니까?")) {
+      const cookies = new Cookies()
+      cookies.remove('token')
+      navigate('/')
+    }
+  }
 
   return (
     <>
@@ -37,6 +47,11 @@ function Navigation({ openModal, setOpenModal }) {
         <StProfileDiv onClick={() => navigate(`/mypage/${username?.username}`)}>
           <CgProfile size="30" />
           프로필
+        </StProfileDiv>
+
+        <StProfileDiv onClick={clickLogoutBtnHandler}>
+          <BiLogOut size="30" />
+          로그아웃
         </StProfileDiv>
       </StHeader>
       {/* PostWrite 컴포넌트에 posts.id 넘겨줄 것 */}

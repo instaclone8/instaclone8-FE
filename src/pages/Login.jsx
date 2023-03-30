@@ -26,7 +26,11 @@ function Login() {
       <LoginBox login={true}>
         <Input max={25} value={email} onChange={emailChangeHandler} >이메일</Input>
         <Input type='password' max={15} value={password} onChange={passwordChangeHandler} >비밀번호</Input>
-        <Button onClick={() => login(userInfo)} type={'button'} size={'medium'} btnColor={'rgb(113, 194, 244)'} color={'white'}>로그인</Button>
+        <Button onClick={() => login(userInfo, {
+          onError: (error) => {
+            alert(error.response.data.message);
+          }
+        })} type={'button'} size={'medium'} btnColor={'rgb(113, 194, 244)'} color={'white'}>로그인</Button>
         <Line>또는</Line>
         <Kakao> KakaoTalk 로 로그인</Kakao>
       </LoginBox>

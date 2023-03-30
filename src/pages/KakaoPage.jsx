@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import apis from '../axios/api';
 import Wrapper from "../components/common/Wrapper";
+import { BsPlusCircleDotted } from "react-icons/bs"
 
 function KakaoPage() {
   const navigate = useNavigate();
@@ -36,20 +36,15 @@ function KakaoPage() {
     }
   }, [kakaoCode, refetch, navigate]);
 
-  // const { mutate } = useMutation({
-  //   mutationFn: async (payload) => {
-  //     const response = await axios.get(`http://15.164.166.87:8080/api/user/kakao/callback?code=${payload}`)
-  //     const token = response.headers.authorization;
-  //     const cookies = new Cookies()
-  //     cookies.set('token', token)
-  //     return response
-  //   }
-  // })
-
   return (
-    <Wrapper height={`100vh`}>
+    <Wrapper height={`100vh`} flex={`row`}>
       <img
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSwBaWDpA8UkXW71CnThivS3w6c2PxgyCWJw&usqp=CAU"
+        src="https://i.pinimg.com/236x/88/79/43/88794378c9e86a0b09932528de3c4ea1.jpg"
+        alt="... 로딩중"
+      />
+      <BsPlusCircleDotted style={{ fontSize: `100px` }} />
+      <img
+        src="https://i.pinimg.com/236x/86/39/85/8639859040131440e24166acfe00dcb0.jpg"
         alt="... 로딩중"
       />
     </Wrapper>

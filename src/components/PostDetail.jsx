@@ -1,4 +1,3 @@
-import { useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useGetPostOne } from "../api/hooks/useGetPostOne";
@@ -307,11 +306,6 @@ const PostLike = styled.div`
   font-size: 15px;
 `;
 
-// const CommentWrap = styled.div`
-//   height: 10px;
-//   padding: 10px;
-// `;
-
 const CmtInputWrap = styled.div`
   border-top: 1px solid #d4d0d0;
   margin-top: 10px;
@@ -357,11 +351,11 @@ const InputImage = styled.div`
   justify-content: center;
   align-items: center;
   width: 550px;
-  height: 100%;
+  height: 600px;
 
   img {
     width: 100%;
-    height: 100%;
+    height: 600px;
   }
 `;
 const InputContentWrap = styled.div`

@@ -64,9 +64,9 @@ function Signup() {
                     setCheckEmailMessage('사용가능한 이메일 입니다.')
                     setOpenEmailModal(true)
                   },
-                  onError: () => {
+                  onError: (error) => {
                     setType(false)
-                    setCheckEmailMessage('사용불가')
+                    setCheckEmailMessage(error.response.data.message)
                     setOpenEmailModal(true)
                   }
                 })}>

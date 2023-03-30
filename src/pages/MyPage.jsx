@@ -20,12 +20,7 @@ function MyPage() {
     setOpenModal(true);
   };
 
-
-
-
-
-
-  ////////무한스크롤 테스트 //////////////////////////////////////////////////
+  ////////무한스크롤 //////////////////////////////////////////////////
 
   const [num, setNum] = useState(0);
   const [postData, setPostData] = useState([]);
@@ -39,12 +34,9 @@ function MyPage() {
       return response.data;
     },
     {
-      // enabled: false,
       keepPreviousData: true,
     }
   );
-
-
 
   const onScroll = () => {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
@@ -80,7 +72,7 @@ function MyPage() {
       <Navigation openModal={openReviseModal} setOpenModal={setReviseOpenModal} />
       <Div>
         <UI.FlexRow justify={`flex-start`} others={`margin : 50px 0 50px`}>
-          <ProfileImg />
+          <ProfileImg userImage={data?.userImage} />
           <UI.FlexColumn
             width={"fit-content"}
             gap={`20px`}
