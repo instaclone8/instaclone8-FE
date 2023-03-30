@@ -8,7 +8,7 @@ import ModalBlackBg from "../components/ModalBlackBg";
 import MyCard from "../components/MyCard";
 import Navigation from "../components/Navigation";
 import { useQuery } from '@tanstack/react-query';
-import apis from '../axios/api';
+import apis, { apis_token } from '../axios/api';
 import { keys } from '../api/utils/createQueryKey';
 
 function MyPage() {
@@ -28,68 +28,59 @@ function MyPage() {
 
   ////////무한스크롤 테스트 //////////////////////////////////////////////////
 
-  // const { myPost } = useGetMypost();
-  // const [requestNum, setRequestNum] = useState(0);
-
-  // const onScroll = () => {
-  //   // console.log("스크롤위치", window.scrollY);
-  //   // console.log("화면하이트", window.innerHeight);
-  //   // console.log('전체높이', document.body.offsetHeight);
-  //   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-  //     console.log('끝도착')
-  //     setRequestNum(prev => {
-  //       console.log("@@@@@@@@@@@@", (prev + 1));
-  //       myPost(prev)
-  //       return prev + 1;
-  //     });
-  //   }
-  // }
-  // useEffect(() => {
-  //   window.addEventListener('scroll', onScroll)
-  //   myPost(0)
-  //   return () => {
-  //     window.removeEventListener('scroll', onScroll)
-  //   }
-  // }, [])
-
   const [num, setNum] = useState(0);
-  const [requestNum, setRequestNum] = useState();
+  const [postData, setPostData] = useState([]);
 
-  const { data, refetch } = useQuery(
+  const { data, refetch, isFetching, isLoading } = useQuery(
     [keys.GET_MYPOST, num],
     async () => {
-      const response = await apis.get(
+      const response = await apis_token.get(
         `/api/user/mypage?page=${num}`
       );
-      return response;
+      console.log(response.data);
+      return response.data;
     },
-    { enabled: false }
+    {
+      // enabled: false,
+      keepPreviousData: true,
+    }
   );
 
+
+
   const onScroll = () => {
-    // console.log("스크롤위치", window.scrollY);
-    // console.log("화면하이트", window.innerHeight);
-    // console.log('전체높이', document.body.offsetHeight);
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
       console.log('끝도착')
-      setNum(prev => {
-        console.log("@@@@@@@@@@@@", (prev + 1));
-        refetch(prev)
-        return prev + 1;
-      });
+      setNum(num =>
+        num + 1
+        //   {
+        //   console.log("@@@@@@@@@@@@", (num + 1));
+        //   refetch(num)
+        //   return num + 1;
+        // }
+      );
     }
   }
 
   useEffect(() => {
     window.addEventListener('scroll', onScroll)
 
-    refetch(0)
+    refetch()
     return () => {
       window.removeEventListener('scroll', onScroll)
     }
   }, [num])
 
-  const myPost = [`a`, `b`, `c`]
+  useEffect(() => {
+    if (data) {
+      setPostData(prevPostData => [...prevPostData, ...data.posts]);
+      console.log('@@@@@@@@@@@@@@@@@@', postData);
+    }
+  }, [data])
+
+  if (isLoading) {
+    return <h1>로딩중...........@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</h1>
+  }
 
 
   ///////////////////////////////////////////////////////////////////
@@ -107,13 +98,13 @@ function MyPage() {
             justify={`flex-start`}
             align={`flex-start`}
           >
-            <NicknameDiv>{myPost?.username}</NicknameDiv>
-            <NicknameDiv>게시물 {myPost?.postsCnt}개</NicknameDiv>
+            <NicknameDiv>{data?.username}</NicknameDiv>
+            <NicknameDiv>게시물 {data?.postsCnt}개</NicknameDiv>
           </UI.FlexColumn>
         </UI.FlexRow>
         <DivisionLine />
         <UI.FlexRow height={`fit-content`} justify={`flex-start`} wrap={"wrap"}>
-          {myPost?.posts?.map(post => {
+          {postData?.map(post => {
             return (
               <div key={post.postId}>
                 <MyCard
