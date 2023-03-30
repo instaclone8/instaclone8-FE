@@ -37,7 +37,6 @@ function MyPage() {
       const response = await apis_token.get(
         `/api/user/mypage?page=${num}`
       );
-      console.log(response.data);
       return response.data;
     },
     {
@@ -50,15 +49,7 @@ function MyPage() {
 
   const onScroll = () => {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-      console.log('끝도착')
-      setNum(num =>
-        num + 1
-        //   {
-        //   console.log("@@@@@@@@@@@@", (num + 1));
-        //   refetch(num)
-        //   return num + 1;
-        // }
-      );
+      setNum(num => num + 1);
     }
   }
 
@@ -74,7 +65,6 @@ function MyPage() {
   useEffect(() => {
     if (data) {
       setPostData(prevPostData => [...prevPostData, ...data.posts]);
-      console.log('@@@@@@@@@@@@@@@@@@', postData);
     }
   }, [data])
 

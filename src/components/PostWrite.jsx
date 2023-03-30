@@ -9,7 +9,6 @@ import Button from "./common/Button";
 function PostWrite({ setOpenModal }) {
   //username 조회
   const { username } = useGetUsername();
-  console.log(username, "username");
   const inputRef = useRef(null);
 
   //모달 close 관리
@@ -45,9 +44,6 @@ function PostWrite({ setOpenModal }) {
     formData.append("image", file);
     formData.append("content", content);
     addPost(formData);
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
     setOpenModal(false);
   };
 
